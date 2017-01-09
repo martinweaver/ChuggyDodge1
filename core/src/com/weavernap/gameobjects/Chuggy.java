@@ -40,10 +40,6 @@ public class Chuggy {
 
         velocity.add(acceleration.cpy().scl(delta));
 
-        // Set the circle's center to be (9, 6) with respect to the bird.
-        // Set the circle's radius to be 6.5f;
-        boundingCircle.set(position.x + 9, position.y + 6, 6.5f);
-
         if (velocity.y > 500) {
             velocity.y = 500;
         }
@@ -57,22 +53,31 @@ public class Chuggy {
             velocity.y = -velocity.y;
         }
 
+        if (position.y > 204) {
+            position.y = 204;
+            velocity.y = -velocity.y;
+        }
+
         position.add(velocity.cpy().scl(delta));
+
+        // Set the circle's center to be (9, 6) with respect to the bird.
+        // Set the circle's radius to be 6.5f;
+        boundingCircle.set(position.x + 7, position.y + 9, 8f);
 
         // Rotate counterclockwise
         if (velocity.y < 0) {
-            rotation -= 480 * delta;
+            rotation -= 380 * delta;
 
-            if (rotation < -55) {
-                rotation = -55;
+            if (rotation < -30) {
+                rotation = -30;
             }
         }
 
         // Rotate clockwise
         if (velocity.y > 1) {
-            rotation += 480 * delta;
-            if (rotation > 55) {
-                rotation = 55;
+            rotation += 380 * delta;
+            if (rotation > 30) {
+                rotation = 30;
             }
 
         }

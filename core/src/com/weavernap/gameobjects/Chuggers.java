@@ -1,7 +1,7 @@
 package com.weavernap.gameobjects;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
@@ -12,11 +12,12 @@ import java.util.Random;
 public class Chuggers extends Scrollable {
 
     private Random r;
-    private Rectangle skullUp, skullDown, barUp, barDown;
+    private Circle boundingChuggerTop, boundingChuggerCentre, boundingChuggerBottom;
 
-    public static final int VERTICAL_GAP = 45;
-    public static final int SKULL_WIDTH = 24;
-    public static final int SKULL_HEIGHT = 11;
+
+    public static final int VERTICAL_GAP = 55;
+    public static final int CHUGGER_WIDTH = 20;
+    public static final int CHUGGER_HEIGHT = 21;
 
     private float roadY;
 
@@ -24,17 +25,18 @@ public class Chuggers extends Scrollable {
 
 
 
-    // When Pipe's constructor is invoked, invoke the super (Scrollable)
+    // When Chugger's (was Pipe) constructor is invoked, invoke the super (Scrollable)
     // constructor
     public Chuggers(float x, float y, int width, int height, float scrollSpeed,
                     float roadY) {
         super(x, y, width, height, scrollSpeed);
         // Initialize a Random object for Random number generation
         r = new Random();
-        skullUp = new Rectangle();
-        skullDown = new Rectangle();
-        barUp = new Rectangle();
-        barDown = new Rectangle();
+
+        boundingChuggerTop = new Circle();
+        boundingChuggerCentre = new Circle();
+        boundingChuggerBottom = new Circle();
+
         this.roadY = roadY;
     }
 
@@ -47,19 +49,13 @@ public class Chuggers extends Scrollable {
         // coordinates,
         // along with the width and height of the rectangle
 
-        barUp.set(position.x, position.y, width, height);
-        barDown.set(position.x, position.y + height + VERTICAL_GAP, width,
-                roadY - (position.y + height + VERTICAL_GAP));
 
-        // Our skull width is 24. The bar is only 22 pixels wide. So the skull
-        // must be shifted by 1 pixel to the left (so that the skull is centered
-        // with respect to its bar).
 
-        // This shift is equivalent to: (SKULL_WIDTH - width) / 2
-        skullUp.set(position.x - (SKULL_WIDTH - width) / 2, position.y + height
-                - SKULL_HEIGHT, SKULL_WIDTH, SKULL_HEIGHT);
-        skullDown.set(position.x - (SKULL_WIDTH - width) / 2, barDown.y,
-                SKULL_WIDTH, SKULL_HEIGHT);
+        boundingChuggerTop.set(position.x, position.y + height, 10f);
+        boundingChuggerCentre.set(position.x, position.y + height + midChange + VERTICAL_GAP, 10f);
+        boundingChuggerBottom.set(position.x, position.y + height + (2*VERTICAL_GAP), 10f);
+
+
 
     }
 
@@ -68,32 +64,31 @@ public class Chuggers extends Scrollable {
         // Call the reset method in the superclass (Scrollable)
         super.reset(newX);
         // Change the height to a random number
-        height = r.nextInt(90) + 15;
+        height = r.nextInt(30) +15;
+        int Low = -25;
+        int High = 25;
+        midChange = r.nextInt(High - Low) + Low;
         isScored = false;
 
     }
-    public Rectangle getSkullUp() {
-        return skullUp;
+    public Circle getChuggerTop() {
+        return boundingChuggerTop;
     }
 
-    public Rectangle getSkullDown() {
-        return skullDown;
+    public Circle getChuggerCentre() {
+        return boundingChuggerCentre;
     }
 
-    public Rectangle getBarUp() {
-        return barUp;
+    public Circle getChuggerBottom() {
+        return boundingChuggerBottom;
     }
 
-    public Rectangle getBarDown() {
-        return barDown;
-    }
 
     public boolean collides(Chuggy chuggy) {
         if (position.x < chuggy.getX() + chuggy.getWidth()) {
-            return (Intersector.overlaps(chuggy.getBoundingCircle(), barUp)
-                    || Intersector.overlaps(chuggy.getBoundingCircle(), barDown)
-                    || Intersector.overlaps(chuggy.getBoundingCircle(), skullUp) || Intersector
-                    .overlaps(chuggy.getBoundingCircle(), skullDown));
+            return ( Intersector.overlaps(chuggy.getBoundingCircle(), boundingChuggerTop)
+                    || Intersector.overlaps(chuggy.getBoundingCircle(), boundingChuggerCentre)
+                    || Intersector.overlaps(chuggy.getBoundingCircle(), boundingChuggerBottom));
         }
         return false;
     }

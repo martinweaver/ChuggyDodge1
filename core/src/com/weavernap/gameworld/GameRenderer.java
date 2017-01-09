@@ -1,7 +1,6 @@
 package com.weavernap.gameworld;
 
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,6 +14,7 @@ import com.weavernap.TweenAccessors.Value;
 import com.weavernap.TweenAccessors.ValueAccessor;
 import com.weavernap.cdHelpers.AssetLoader;
 import com.weavernap.cdHelpers.InputHandler;
+import com.weavernap.gameobjects.Car;
 import com.weavernap.gameobjects.Chuggers;
 import com.weavernap.gameobjects.Chuggy;
 import com.weavernap.gameobjects.Kerb;
@@ -42,16 +42,34 @@ public class GameRenderer {
 
     private int midPointY;
 
+    public static final int CHUGGY_WIDTH = 20;
+    public static final int CHUGGY_HEIGHT = 20;
+//    public static final int CHUGGER_WIDTH = 18;
+//    public static final int CHUGGER_HEIGHT = 18;
+
     // Game Objects
     private Chuggy chuggy;
     private ScrollHandler scroller;
     private Kerb frontKerb, backKerb;
-    private Chuggers chugger1, chugger2, chugger3;
+    private Chuggers chugger1, chugger2, chugger3; //Refers to 1st, 2nd & 3rd to appear on screen
+    private Car car1, car2;
 
     // Game Assets
-    private TextureRegion bg, kerb, birdMid, skullUp, skullDown, bar, ready,
-            zbLogo, gameOver, highScore, scoreboard, star, noStar, retry;
-    private Animation birdAnimation;
+    private TextureRegion kerb;
+    private TextureRegion ready;
+   // private TextureRegion zbLogo;
+    private TextureRegion gameOver;
+    private TextureRegion highScore;
+    private TextureRegion scoreboard;
+    private TextureRegion star;
+    private TextureRegion noStar;
+    private TextureRegion retry;
+    private TextureRegion chuggyMid;
+//    private TextureRegion chuggerTop;
+//    private TextureRegion chuggerCentre;
+//    private TextureRegion chuggerBottom;
+    private Animation chuggyAnimation, chuggerAnimation;
+    private TextureRegion carPic;
 
     // Tween stuff
     private TweenManager manager;
@@ -96,19 +114,22 @@ public class GameRenderer {
         chugger1 = scroller.getChugger1();
         chugger2 = scroller.getChugger2();
         chugger3 = scroller.getChugger3();
+        car1 = scroller.getCar1();
+        car2 = scroller.getCar2();
 
     }
 
     private void initAssets() {
-        bg = AssetLoader.bg;
+
         kerb = AssetLoader.kerb;
-        birdAnimation = AssetLoader.birdAnimation;
-        birdMid = AssetLoader.bird;
-        skullUp = AssetLoader.skullUp;
-        skullDown = AssetLoader.skullDown;
-        bar = AssetLoader.bar;
+        chuggyAnimation = AssetLoader.chuggyAnimation;
+        chuggyMid = AssetLoader.chuggy;
+
+        chuggerAnimation = AssetLoader.chuggerAnimation;
+
+        carPic = AssetLoader.carPic;
+
         ready = AssetLoader.ready;
-        zbLogo = AssetLoader.zbLogo;
         gameOver = AssetLoader.gameOver;
         highScore = AssetLoader.highScore;
         scoreboard = AssetLoader.scoreboard;
@@ -125,71 +146,72 @@ public class GameRenderer {
                 backKerb.getWidth(), backKerb.getHeight());
     }
 
-    private void drawSkulls() {
+
+    private void drawChuggers(float runTime) {
         // Temporary code! Sorry about the mess :)
         // We will fix this when we finish the Pipe class.
 
-        batcher.draw(skullUp, chugger1.getX() - 1,
-                chugger1.getY() + chugger1.getHeight() - 14, 24, 14);
-        batcher.draw(skullDown, chugger1.getX() - 1,
-                chugger1.getY() + chugger1.getHeight() + 45, 24, 14);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerTop().x - 10, chugger1.getChuggerTop().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerCentre().x - 10, chugger1.getChuggerCentre().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerBottom().x - 10, chugger1.getChuggerBottom().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
 
-        batcher.draw(skullUp, chugger2.getX() - 1,
-                chugger2.getY() + chugger2.getHeight() - 14, 24, 14);
-        batcher.draw(skullDown, chugger2.getX() - 1,
-                chugger2.getY() + chugger2.getHeight() + 45, 24, 14);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerTop().x - 10, chugger2.getChuggerTop().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerCentre().x - 10, chugger2.getChuggerCentre().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerBottom().x - 10, chugger2.getChuggerBottom().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
 
-        batcher.draw(skullUp, chugger3.getX() - 1,
-                chugger3.getY() + chugger3.getHeight() - 14, 24, 14);
-        batcher.draw(skullDown, chugger3.getX() - 1,
-                chugger3.getY() + chugger3.getHeight() + 45, 24, 14);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerTop().x - 10, chugger3.getChuggerTop().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerCentre().x - 10, chugger3.getChuggerCentre().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerBottom().x - 10, chugger3.getChuggerBottom().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
     }
 
-    private void drawChuggers() {
-        // Temporary code! Sorry about the mess :)
-        // We will fix this when we finish the Pipe class.
-        batcher.draw(bar, chugger1.getX(), chugger1.getY(), chugger1.getWidth(),
-                chugger1.getHeight());
-        batcher.draw(bar, chugger1.getX(), chugger1.getY() + chugger1.getHeight() + 45,
-                chugger1.getWidth(), midPointY + 66 - (chugger1.getHeight() + 45));
-
-        batcher.draw(bar, chugger2.getX(), chugger2.getY(), chugger2.getWidth(),
-                chugger2.getHeight());
-        batcher.draw(bar, chugger2.getX(), chugger2.getY() + chugger2.getHeight() + 45,
-                chugger2.getWidth(), midPointY + 66 - (chugger2.getHeight() + 45));
-
-        batcher.draw(bar, chugger3.getX(), chugger3.getY(), chugger3.getWidth(),
-                chugger3.getHeight());
-        batcher.draw(bar, chugger3.getX(), chugger3.getY() + chugger3.getHeight() + 45,
-                chugger3.getWidth(), midPointY + 66 - (chugger3.getHeight() + 45));
+    private void drawCar(){
+        batcher.draw(carPic, car1.getCar1().x , car1.getCar1().y - 0,
+                Car.CAR_WIDTH, Car.CAR_HEIGHT);
+        batcher.draw(carPic, car2.getCar2().x  , car2.getCar2().y - 0,
+                Car.CAR_WIDTH, Car.CAR_HEIGHT);
     }
 
-    private void drawBirdCentered(float runTime) {
-        batcher.draw((TextureRegion) birdAnimation.getKeyFrame(runTime), 59, chuggy.getY() - 15,
+
+
+    private void drawChuggyCentered(float runTime) {
+        batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime), 59, chuggy.getY() - 15,
                 chuggy.getWidth() / 2.0f, chuggy.getHeight() / 2.0f,
-                chuggy.getWidth(), chuggy.getHeight(), 1, 1, chuggy.getRotation());
+                CHUGGY_WIDTH, CHUGGY_HEIGHT, 1, 1, chuggy.getRotation());
     }
 
-    private void drawBird(float runTime) {
+    private void drawChuggy(float runTime) {
 
         if (chuggy.shouldntWalk()) {
-            batcher.draw(birdMid, chuggy.getX(), chuggy.getY(),
+            batcher.draw(chuggyMid, chuggy.getX(), chuggy.getY(),
                     chuggy.getWidth() / 2.0f, chuggy.getHeight() / 2.0f,
-                    chuggy.getWidth(), chuggy.getHeight(), 1, 1, chuggy.getRotation());
+                    CHUGGY_WIDTH, CHUGGY_HEIGHT, 1, 1, chuggy.getRotation());
 
         } else {
-            batcher.draw((TextureRegion) birdAnimation.getKeyFrame(runTime), chuggy.getX(),
+            batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime), chuggy.getX(),
                     chuggy.getY(), chuggy.getWidth() / 2.0f,
-                    chuggy.getHeight() / 2.0f, chuggy.getWidth(), chuggy.getHeight(),
+                    chuggy.getHeight() / 2.0f, CHUGGY_WIDTH, CHUGGY_HEIGHT,
                     1, 1, chuggy.getRotation());
         }
 
     }
 
+
+
+
+
     private void drawMenuUI() {
-        batcher.draw(AssetLoader.zbLogo, 136 / 2 - 56, midPointY - 50,
-                AssetLoader.zbLogo.getRegionWidth() / 1.2f,
-                AssetLoader.zbLogo.getRegionHeight() / 1.2f);
+        batcher.draw(AssetLoader.cdLogo, 136 / 2 - 60, midPointY - 75,
+                AssetLoader.cdLogo.getRegionWidth() / 1.1f,
+                AssetLoader.cdLogo.getRegionHeight() / 1.1f);
 
         for (SimpleButton button : menuButtons) {
             button.draw(batcher);
@@ -268,53 +290,48 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Begin ShapeRenderer
-        shapeRenderer.begin(ShapeType.Filled);
 
-        // Draw Background color
-        shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
-        shapeRenderer.rect(0, 0, 136, midPointY + 66);
 
-        // Draw Grass
-        shapeRenderer.setColor(11 / 255.0f, 16 / 255.0f, 45 / 25.0f, 1);
-        shapeRenderer.rect(0, midPointY + 66, 136, 11);
 
-        // Draw Dirt
-        shapeRenderer.setColor(24 / 255.0f, 18 / 255.0f, 22 / 255.0f, 1);
-        shapeRenderer.rect(0, midPointY + 77, 136, 52);
-
-        shapeRenderer.end();
 
         // Begin SpriteBatch
         batcher.begin();
         batcher.disableBlending();
-        batcher.draw(bg, 0, midPointY + 23, 136, 43);
+     //  batcher.draw(kerb, 0, 0, 136, 100);   // was bg orig. can prob get rid
 
         drawKerb();
 
-        drawChuggers();
+      //  drawChuggers();
         // The chuggy needs transparency, so we enable that again.
         batcher.enableBlending();
 
-        drawSkulls();
+       // drawChuggers(runTime);
+
+
 
 		if (myWorld.isRunning()) {
-			drawBird(runTime);
-			drawScore();
+			drawChuggy(runTime);
+            drawChuggers(runTime);
+
+            drawCar();
+
+            drawScore();
 		} else if (myWorld.isReady()) {
-			drawBird(runTime);
+			drawChuggy(runTime);
 			drawReady();
 		} else if (myWorld.isMenu()) {
-			drawBirdCentered(runTime);
+			drawChuggyCentered(runTime);
 			drawMenuUI();
 		} else if (myWorld.isGameOver()) {
-			drawScoreboard();
-			drawBird(runTime);
+            drawChuggers(runTime);
+            drawChuggy(runTime);
+            drawScoreboard();
+
 			drawGameOver();
 			drawRetry();
 		} else if (myWorld.isHighScore()) {
 			drawScoreboard();
-			drawBird(runTime);
+			drawChuggy(runTime);
 			drawHighScore();
 			drawRetry();
 		}
@@ -322,6 +339,53 @@ public class GameRenderer {
 
         // End SpriteBatch
         batcher.end();
+        shapeRenderer.begin(ShapeType.Line);
+
+
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.circle(chuggy.getBoundingCircle().x, chuggy.getBoundingCircle().y, chuggy.getBoundingCircle().radius);
+
+
+
+        // Chugger Top for Chuggers 1st 2nd and 3rd Shows collision detection
+        shapeRenderer.circle(chugger1.getChuggerTop().x, chugger1.getChuggerTop().y,
+                chugger1.getChuggerTop().radius);
+
+        shapeRenderer.circle(chugger2.getChuggerTop().x, chugger2.getChuggerTop().y,
+                chugger2.getChuggerTop().radius);
+
+        shapeRenderer.circle(chugger3.getChuggerTop().x, chugger3.getChuggerTop().y,
+                chugger3.getChuggerTop().radius);
+
+
+        // Chugger Centre for Chuggers 1 2 and 3
+        shapeRenderer.circle(chugger1.getChuggerCentre().x, chugger1.getChuggerCentre().y,
+                chugger1.getChuggerCentre().radius);
+
+        shapeRenderer.circle(chugger2.getChuggerCentre().x, chugger2.getChuggerCentre().y,
+                chugger2.getChuggerCentre().radius);
+
+        shapeRenderer.circle(chugger3.getChuggerCentre().x, chugger3.getChuggerCentre().y,
+                chugger3.getChuggerCentre().radius);
+
+
+        // Chugger Bottom for Chuggers 1 2 and 3
+        shapeRenderer.circle(chugger1.getChuggerBottom().x, chugger1.getChuggerBottom().y,
+                chugger1.getChuggerBottom().radius);
+
+        shapeRenderer.circle(chugger2.getChuggerBottom().x, chugger2.getChuggerBottom().y,
+                chugger2.getChuggerBottom().radius);
+
+        shapeRenderer.circle(chugger3.getChuggerBottom().x, chugger3.getChuggerBottom().y,
+                chugger3.getChuggerBottom().radius);
+
+
+
+        shapeRenderer.rect(car1.getCar1().x, car1.getCar1().y, car1.getCar1().width, car1.getCar1().height);
+
+        shapeRenderer.rect(car2.getCar2().x, car2.getCar2().y, car2.getCar2().width, car2.getCar2().height);
+
+        shapeRenderer.end();
 
        drawTransition(delta);
 
