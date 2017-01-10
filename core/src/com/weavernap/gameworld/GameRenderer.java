@@ -146,25 +146,25 @@ public class GameRenderer {
         // Temporary code! Sorry about the mess :)
         // We will fix this when we finish the Pipe class.
 
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerTop().x - 10, chugger1.getChuggerTop().y - 10,
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerTop().x - 11, chugger1.getChuggerTop().y - 10,
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerCentre().x - 10, chugger1.getChuggerCentre().y - 10,
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerCentre().x - 11, chugger1.getChuggerCentre().y - 10,
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerBottom().x - 10, chugger1.getChuggerBottom().y - 10,
-                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
-
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerTop().x - 10, chugger2.getChuggerTop().y - 10,
-                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerCentre().x - 10, chugger2.getChuggerCentre().y - 10,
-                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerBottom().x - 10, chugger2.getChuggerBottom().y - 10,
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger1.getChuggerBottom().x - 11, chugger1.getChuggerBottom().y - 10,
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
 
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerTop().x - 10, chugger3.getChuggerTop().y - 10,
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerTop().x - 11, chugger2.getChuggerTop().y - 10,
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerCentre().x - 10, chugger3.getChuggerCentre().y - 10,
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerCentre().x - 11, chugger2.getChuggerCentre().y - 10,
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
-        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerBottom().x - 10, chugger3.getChuggerBottom().y - 10,
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger2.getChuggerBottom().x - 11, chugger2.getChuggerBottom().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerTop().x - 11, chugger3.getChuggerTop().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerCentre().x - 11, chugger3.getChuggerCentre().y - 10,
+                Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
+        batcher.draw((TextureRegion) chuggerAnimation.getKeyFrame(runTime), chugger3.getChuggerBottom().x - 11, chugger3.getChuggerBottom().y - 10,
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
     }
 
@@ -332,53 +332,55 @@ public class GameRenderer {
 
         // End SpriteBatch
         batcher.end();
-        shapeRenderer.begin(ShapeType.Line);
 
 
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.circle(chuggy.getBoundingCircle().x, chuggy.getBoundingCircle().y, chuggy.getBoundingCircle().radius);
-
-
-
-        // Chugger Top for Chuggers 1st 2nd and 3rd Shows collision detection
-        shapeRenderer.circle(chugger1.getChuggerTop().x, chugger1.getChuggerTop().y,
-                chugger1.getChuggerTop().radius);
-
-        shapeRenderer.circle(chugger2.getChuggerTop().x, chugger2.getChuggerTop().y,
-                chugger2.getChuggerTop().radius);
-
-        shapeRenderer.circle(chugger3.getChuggerTop().x, chugger3.getChuggerTop().y,
-                chugger3.getChuggerTop().radius);
-
-
-        // Chugger Centre for Chuggers 1 2 and 3
-        shapeRenderer.circle(chugger1.getChuggerCentre().x, chugger1.getChuggerCentre().y,
-                chugger1.getChuggerCentre().radius);
-
-        shapeRenderer.circle(chugger2.getChuggerCentre().x, chugger2.getChuggerCentre().y,
-                chugger2.getChuggerCentre().radius);
-
-        shapeRenderer.circle(chugger3.getChuggerCentre().x, chugger3.getChuggerCentre().y,
-                chugger3.getChuggerCentre().radius);
-
-
-        // Chugger Bottom for Chuggers 1 2 and 3
-        shapeRenderer.circle(chugger1.getChuggerBottom().x, chugger1.getChuggerBottom().y,
-                chugger1.getChuggerBottom().radius);
-
-        shapeRenderer.circle(chugger2.getChuggerBottom().x, chugger2.getChuggerBottom().y,
-                chugger2.getChuggerBottom().radius);
-
-        shapeRenderer.circle(chugger3.getChuggerBottom().x, chugger3.getChuggerBottom().y,
-                chugger3.getChuggerBottom().radius);
-
-
-
-        shapeRenderer.rect(car1.getCar1().x, car1.getCar1().y, car1.getCar1().width, car1.getCar1().height);
-
-        shapeRenderer.rect(car2.getCar2().x, car2.getCar2().y, car2.getCar2().width, car2.getCar2().height);
-
-        shapeRenderer.end();
+//        shapeRenderer.begin(ShapeType.Line);
+//
+//
+//        shapeRenderer.setColor(Color.RED);
+//        shapeRenderer.circle(chuggy.getBoundingCircle().x, chuggy.getBoundingCircle().y, chuggy.getBoundingCircle().radius);
+//
+//
+//
+//        // Chugger Top for Chuggers 1st 2nd and 3rd Shows collision detection
+//        shapeRenderer.circle(chugger1.getChuggerTop().x, chugger1.getChuggerTop().y,
+//                chugger1.getChuggerTop().radius);
+//
+//        shapeRenderer.circle(chugger2.getChuggerTop().x, chugger2.getChuggerTop().y,
+//                chugger2.getChuggerTop().radius);
+//
+//        shapeRenderer.circle(chugger3.getChuggerTop().x, chugger3.getChuggerTop().y,
+//                chugger3.getChuggerTop().radius);
+//
+//
+//        // Chugger Centre for Chuggers 1 2 and 3
+//        shapeRenderer.circle(chugger1.getChuggerCentre().x, chugger1.getChuggerCentre().y,
+//                chugger1.getChuggerCentre().radius);
+//
+//        shapeRenderer.circle(chugger2.getChuggerCentre().x, chugger2.getChuggerCentre().y,
+//                chugger2.getChuggerCentre().radius);
+//
+//        shapeRenderer.circle(chugger3.getChuggerCentre().x, chugger3.getChuggerCentre().y,
+//                chugger3.getChuggerCentre().radius);
+//
+//
+//        // Chugger Bottom for Chuggers 1 2 and 3
+//        shapeRenderer.circle(chugger1.getChuggerBottom().x, chugger1.getChuggerBottom().y,
+//                chugger1.getChuggerBottom().radius);
+//
+//        shapeRenderer.circle(chugger2.getChuggerBottom().x, chugger2.getChuggerBottom().y,
+//                chugger2.getChuggerBottom().radius);
+//
+//        shapeRenderer.circle(chugger3.getChuggerBottom().x, chugger3.getChuggerBottom().y,
+//                chugger3.getChuggerBottom().radius);
+//
+//
+//
+//        shapeRenderer.rect(car1.getCar1().x, car1.getCar1().y, car1.getCar1().width, car1.getCar1().height);
+//
+//        shapeRenderer.rect(car2.getCar2().x, car2.getCar2().y, car2.getCar2().width, car2.getCar2().height);
+//
+//        shapeRenderer.end();
 
        drawTransition(delta);
 
