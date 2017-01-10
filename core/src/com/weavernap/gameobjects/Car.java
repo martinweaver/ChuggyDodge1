@@ -11,17 +11,18 @@ import java.util.Random;
 
 public class Car extends Scrollable {
 
-    private Random randCar;
+
     private Rectangle boundingCar1, boundingCar2;
+    private Random r;
 
-
-    public static final int CAR_WIDTH = 100;
-    public static final int CAR_HEIGHT = 50;
+    public static final int CAR_WIDTH = 67;
+    public static final int CAR_HEIGHT = 49;
 
     public Car(float x, float y, int width, int height, float scrollSpeed) {
         super(x, y, width, height, scrollSpeed);
 
-        randCar = new Random();
+        r = new Random();
+
         boundingCar1 = new Rectangle();
         boundingCar2 = new Rectangle();
     }
@@ -36,22 +37,19 @@ public class Car extends Scrollable {
         // along with the width and height of the rectangle
 
 
-        boundingCar1.set(position.x  - carGap, position.y, CAR_WIDTH, CAR_HEIGHT);
-        boundingCar2.set(position.x  - carGap, position.y, CAR_WIDTH, CAR_HEIGHT);
+        boundingCar1.set(position.x  -120, position.y, (float) (CAR_WIDTH * 1.25), (float) (CAR_HEIGHT * 1.25));
+        boundingCar2.set(position.x  -120, position.y, (float) (CAR_WIDTH * 1.25), (float) (CAR_HEIGHT * 1.25));
     }
 
     @Override
     public void reset(float newX) {
         // Call the reset method in the superclass (Scrollable)
         super.reset(newX);
-        // Change the height to a random number
-         int min = 250;
-         int max = 900;
-         int carGap = randCar.nextInt(max - min + 1) + min;
+
+        height = r.nextInt(170 - 150) + 150;
 
 
     }
-
 
 
     public Rectangle getCar1() {
@@ -65,7 +63,7 @@ public class Car extends Scrollable {
 
 
     public boolean collides(Chuggy chuggy) {
-        if (position.x < chuggy.getX() + chuggy.getWidth()) {
+        if (position.x > chuggy.getX() + chuggy.getWidth()) {
             return ( Intersector.overlaps(chuggy.getBoundingCircle(), boundingCar1) ||
                     (Intersector.overlaps(chuggy.getBoundingCircle(), boundingCar2)));
         }
