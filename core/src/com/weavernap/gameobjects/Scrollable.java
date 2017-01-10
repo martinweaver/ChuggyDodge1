@@ -37,7 +37,7 @@ public class Scrollable {
             isScrolledLeft = true;
         }
 
-        if (position.x > 220) {
+        if (position.x > 300) {
             isScrolledRight = true;
         }
     }

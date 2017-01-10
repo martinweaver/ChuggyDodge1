@@ -12,13 +12,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-    public static Texture texture, logoTexture, textureChuggy, textureChugger, kerbTexture, cdLogoTexture;
-    public static TextureRegion logo, zbLogo, playButtonUp, playButtonDown,
+    public static Texture texture, logoTexture, textureChuggy, textureChugger, kerbTexture, cdLogoTexture, busTexture;
+    public static TextureRegion logo,  playButtonUp, playButtonDown,
             ready, gameOver, highScore, scoreboard, star, noStar, retry,
             chuggyForward, chuggyBack, chuggy, chuggerUp, chugger, chuggerDown,
-            chuggerTop, chuggerCentre, chuggerBottom, kerb, cdLogo, carPic;
+            chuggerTop, chuggerCentre, chuggerBottom, kerb, cdLogo, carPic, busOne, busTwo, busThree;
 
-    public static Animation chuggerAnimation, chuggyAnimation;
+    public static Animation chuggerAnimation, chuggyAnimation, busAnimation;
 
 
     public static Sound dead, coin, flap, fall;
@@ -50,7 +50,10 @@ public class AssetLoader {
         kerb.flip(false, true);
 
 
-        carPic = new TextureRegion(kerbTexture, 0, 0, 100, 50);
+        busTexture = new Texture(Gdx.files.internal("data/bustexture.png"));
+        busTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        carPic = new TextureRegion(busTexture, 0, 0, 100, 50);
         carPic.flip(false, true);
 
         cdLogoTexture = new Texture(Gdx.files.internal("data/cdlogo.png"));
@@ -86,21 +89,13 @@ public class AssetLoader {
         highScore = new TextureRegion(texture, 59, 101, 48, 7);
         highScore.flip(false, true);
 
-//		zbLogo = new TextureRegion(texture, 0, 55, 135, 24);
-//		zbLogo.flip(false, true);
-
-
-//        bg = new TextureRegion(texture, 0, 0, 136, 43);
-//        bg.flip(false, true);
-
-
-        chuggyForward = new TextureRegion(textureChuggy, 74, 8, 17, 17);
+        chuggyForward = new TextureRegion(textureChuggy, 74, 8, 12, 17);
         chuggyForward.flip(false, true);
 
-        chuggy = new TextureRegion(textureChuggy, 42, 8, 17, 17);
+        chuggy = new TextureRegion(textureChuggy, 42, 8, 12, 17);
         chuggy.flip(false, true);
 
-        chuggyBack = new TextureRegion(textureChuggy, 10, 8, 17, 17);
+        chuggyBack = new TextureRegion(textureChuggy, 10, 8, 12, 17);
         chuggyBack.flip(false, true);
 
         TextureRegion[] chuggys = {chuggyForward, chuggy, chuggyBack};
@@ -132,6 +127,19 @@ public class AssetLoader {
         chuggerCentre.flip(false, true);
         chuggerBottom = new TextureRegion(textureChugger, 8, 8, 17, 17);
         chuggerBottom.flip(false, true);
+
+        busOne = new TextureRegion(busTexture, 0, 0, 67, 49);
+        busOne.flip(false, true);
+
+        busTwo = new TextureRegion(busTexture, 100, 0, 67, 49);
+        busTwo.flip(false, true);
+
+        busThree = new TextureRegion(busTexture, 200, 0, 67, 49);
+        busThree.flip(false, true);
+
+        TextureRegion[] buses = {busOne, busTwo, busThree};
+        busAnimation = new Animation(0.2f, buses);
+        busAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 //        bar = new TextureRegion(texture, 136, 16, 22, 3);
 //        bar.flip(false, true);

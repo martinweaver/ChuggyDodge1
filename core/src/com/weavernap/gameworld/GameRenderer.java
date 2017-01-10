@@ -42,10 +42,8 @@ public class GameRenderer {
 
     private int midPointY;
 
-    public static final int CHUGGY_WIDTH = 20;
-    public static final int CHUGGY_HEIGHT = 20;
-//    public static final int CHUGGER_WIDTH = 18;
-//    public static final int CHUGGER_HEIGHT = 18;
+    public static final float CHUGGY_WIDTH = 12 * 1.2f;
+    public static final float CHUGGY_HEIGHT = 17 * 1.2f;
 
     // Game Objects
     private Chuggy chuggy;
@@ -57,7 +55,6 @@ public class GameRenderer {
     // Game Assets
     private TextureRegion kerb;
     private TextureRegion ready;
-   // private TextureRegion zbLogo;
     private TextureRegion gameOver;
     private TextureRegion highScore;
     private TextureRegion scoreboard;
@@ -65,11 +62,9 @@ public class GameRenderer {
     private TextureRegion noStar;
     private TextureRegion retry;
     private TextureRegion chuggyMid;
-//    private TextureRegion chuggerTop;
-//    private TextureRegion chuggerCentre;
-//    private TextureRegion chuggerBottom;
-    private Animation chuggyAnimation, chuggerAnimation;
-    private TextureRegion carPic;
+
+    private Animation chuggyAnimation, chuggerAnimation, busAnimation;
+
 
     // Tween stuff
     private TweenManager manager;
@@ -127,7 +122,7 @@ public class GameRenderer {
 
         chuggerAnimation = AssetLoader.chuggerAnimation;
 
-        carPic = AssetLoader.carPic;
+        busAnimation = AssetLoader.busAnimation;
 
         ready = AssetLoader.ready;
         gameOver = AssetLoader.gameOver;
@@ -173,18 +168,18 @@ public class GameRenderer {
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
     }
 
-    private void drawCar(){
-        batcher.draw(carPic, car1.getCar1().x , car1.getCar1().y - 0,
-                Car.CAR_WIDTH, Car.CAR_HEIGHT);
-        batcher.draw(carPic, car2.getCar2().x  , car2.getCar2().y - 0,
-                Car.CAR_WIDTH, Car.CAR_HEIGHT);
+    private void drawCar(float runTime){
+        batcher.draw((TextureRegion) busAnimation.getKeyFrame(runTime), car1.getCar1().x , car1.getCar1().y - 0,
+                (float) (Car.CAR_WIDTH *1.3), (float) (Car.CAR_HEIGHT * 1.3));
+        batcher.draw((TextureRegion) busAnimation.getKeyFrame(runTime), car2.getCar2().x  , car2.getCar2().y - 0,
+                (float) (Car.CAR_WIDTH * 1.3), (float) (Car.CAR_HEIGHT *1.3));
     }
 
 
 
     private void drawChuggyCentered(float runTime) {
         batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime), 59, chuggy.getY() - 15,
-                chuggy.getWidth() / 2.0f, chuggy.getHeight() / 2.0f,
+                CHUGGY_WIDTH/2, CHUGGY_HEIGHT/2,
                 CHUGGY_WIDTH, CHUGGY_HEIGHT, 1, 1, chuggy.getRotation());
     }
 
@@ -192,13 +187,13 @@ public class GameRenderer {
 
         if (chuggy.shouldntWalk()) {
             batcher.draw(chuggyMid, chuggy.getX(), chuggy.getY(),
-                    chuggy.getWidth() / 2.0f, chuggy.getHeight() / 2.0f,
+                    CHUGGY_WIDTH/2, CHUGGY_HEIGHT/2,
                     CHUGGY_WIDTH, CHUGGY_HEIGHT, 1, 1, chuggy.getRotation());
 
         } else {
             batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime), chuggy.getX(),
-                    chuggy.getY(), chuggy.getWidth() / 2.0f,
-                    chuggy.getHeight() / 2.0f, CHUGGY_WIDTH, CHUGGY_HEIGHT,
+                    chuggy.getY(), CHUGGY_WIDTH/2,
+                    CHUGGY_HEIGHT/2, CHUGGY_WIDTH, CHUGGY_HEIGHT,
                     1, 1, chuggy.getRotation());
         }
 
@@ -297,15 +292,12 @@ public class GameRenderer {
         // Begin SpriteBatch
         batcher.begin();
         batcher.disableBlending();
-     //  batcher.draw(kerb, 0, 0, 136, 100);   // was bg orig. can prob get rid
 
         drawKerb();
 
-      //  drawChuggers();
         // The chuggy needs transparency, so we enable that again.
         batcher.enableBlending();
 
-       // drawChuggers(runTime);
 
 
 
@@ -313,7 +305,7 @@ public class GameRenderer {
 			drawChuggy(runTime);
             drawChuggers(runTime);
 
-            drawCar();
+            drawCar(runTime);
 
             drawScore();
 		} else if (myWorld.isReady()) {
@@ -324,6 +316,7 @@ public class GameRenderer {
 			drawMenuUI();
 		} else if (myWorld.isGameOver()) {
             drawChuggers(runTime);
+            drawCar(runTime);
             drawChuggy(runTime);
             drawScoreboard();
 

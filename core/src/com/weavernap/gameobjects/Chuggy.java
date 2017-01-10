@@ -62,7 +62,7 @@ public class Chuggy {
 
         // Set the circle's center to be (9, 6) with respect to the bird.
         // Set the circle's radius to be 6.5f;
-        boundingCircle.set(position.x + 7, position.y + 9, 8f);
+        boundingCircle.set(position.x + (getHeight()/2), position.y + (getWidth()/2), 8.1f);
 
         // Rotate counterclockwise
         if (velocity.y < 0) {

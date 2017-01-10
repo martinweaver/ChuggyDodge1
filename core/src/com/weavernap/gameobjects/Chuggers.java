@@ -53,7 +53,7 @@ public class Chuggers extends Scrollable {
 
         boundingChuggerTop.set(position.x, position.y + height, 10f);
         boundingChuggerCentre.set(position.x, position.y + height + midChange + VERTICAL_GAP, 10f);
-        boundingChuggerBottom.set(position.x, position.y + height + (2*VERTICAL_GAP), 10f);
+        boundingChuggerBottom.set(position.x, position.y + height + (2*VERTICAL_GAP) - 8, 10f);
 
 
 

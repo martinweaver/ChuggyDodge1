@@ -42,8 +42,8 @@ public class ScrollHandler {
         chugger3 = new Chuggers(chugger2.getTailX() + CHUGGER_GAP, 0, 18, 18, SCROLL_SPEED, yPos);
 
 
-        car1 = new Car(-10, 170, 40, 40, CAR_SPEED);
-        car2 = new Car(car1.getTailX() - 200, 170, 40, 40, CAR_SPEED);
+        car1 = new Car(-10, 162, 40, 40, CAR_SPEED);
+        car2 = new Car(car1.getTailX() - 200, 168, 40, 40, CAR_SPEED);
 
 
 
@@ -188,9 +188,17 @@ public class ScrollHandler {
     {
         Random randCar = new Random();
 
-        int carGap = randCar.nextInt(900 - 150 + 1) + 150;
+        int carGap = randCar.nextInt(900 - 100 + 1) + 100;
         return carGap;
     }
+
+    //    public int getBusY()
+//    {
+//        Random randBusY = new Random();
+//
+//        int busY = randBusY.nextInt(150 - 140 ) + 140;
+//        return busY;
+//    }
 
     public void onRestart() {
         frontKerb.onRestart(0, SCROLL_SPEED);
@@ -199,7 +207,7 @@ public class ScrollHandler {
         chugger2.onRestart(chugger1.getTailX() + CHUGGER_GAP, SCROLL_SPEED);
         chugger3.onRestart(chugger2.getTailX() + CHUGGER_GAP, SCROLL_SPEED);
         car1.onRestart(-10, CAR_SPEED);
-        car2.onRestart(car1.getTailX() - 200, CAR_SPEED);
+        car2.onRestart(car1.getTailX() - getCarGap(), CAR_SPEED);
     }
 
 }
