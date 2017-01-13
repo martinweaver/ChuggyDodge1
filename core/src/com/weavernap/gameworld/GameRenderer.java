@@ -55,11 +55,9 @@ public class GameRenderer {
     // Game Assets
     private TextureRegion kerb;
     private TextureRegion ready;
-    private TextureRegion gameOver;
     private TextureRegion highScore;
     private TextureRegion scoreboard;
-    private TextureRegion star;
-    private TextureRegion noStar;
+    private TextureRegion smile2, smile3, smile4, smile5;
     private TextureRegion retry;
     private TextureRegion chuggyMid;
 
@@ -70,9 +68,9 @@ public class GameRenderer {
     private TweenManager manager;
     private Value alpha = new Value();
 
-	// Buttons
-	private List<SimpleButton> menuButtons;
-	private Color transitionColor;
+    // Buttons
+    private List<SimpleButton> menuButtons, retryButtons;
+    private Color transitionColor;
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
         myWorld = world;
@@ -81,8 +79,12 @@ public class GameRenderer {
         // We are setting the instance variables' values to be that of the
         // parameters passed in from GameScreen.
         this.midPointY = midPointY;
+
         this.menuButtons = ((InputHandler) Gdx.input.getInputProcessor())
                 .getMenuButtons();
+
+        this.retryButtons = ((InputHandler) Gdx.input.getInputProcessor())
+                .getRetryButtons();
 
         cam = new OrthographicCamera();
         cam.setToOrtho(true, 136, gameHeight);
@@ -97,9 +99,9 @@ public class GameRenderer {
         initAssets();
 
 
-		transitionColor = new Color();
-		prepareTransition(255, 255, 255, .5f);
-	}
+        transitionColor = new Color();
+        prepareTransition(255, 255, 255, .5f);
+    }
 
     private void initGameObjects() {
         chuggy = myWorld.getChuggy();
@@ -125,12 +127,15 @@ public class GameRenderer {
         busAnimation = AssetLoader.busAnimation;
 
         ready = AssetLoader.ready;
-        gameOver = AssetLoader.gameOver;
+        // gameOver = AssetLoader.gameOver;
         highScore = AssetLoader.highScore;
         scoreboard = AssetLoader.scoreboard;
         retry = AssetLoader.retry;
-        star = AssetLoader.star;
-        noStar = AssetLoader.noStar;
+        smile2 = AssetLoader.smile2;
+        smile3 = AssetLoader.smile3;
+        smile4 = AssetLoader.smile4;
+        smile5 = AssetLoader.smile5;
+        //  noStar = AssetLoader.noStar;
     }
 
     private void drawKerb() {
@@ -168,18 +173,17 @@ public class GameRenderer {
                 Chuggers.CHUGGER_WIDTH, Chuggers.CHUGGER_HEIGHT);
     }
 
-    private void drawCar(float runTime){
-        batcher.draw((TextureRegion) busAnimation.getKeyFrame(runTime), car1.getCar1().x , car1.getCar1().y - 0,
-                (float) (Car.CAR_WIDTH *1.3), (float) (Car.CAR_HEIGHT * 1.3));
-        batcher.draw((TextureRegion) busAnimation.getKeyFrame(runTime), car2.getCar2().x  , car2.getCar2().y - 0,
-                (float) (Car.CAR_WIDTH * 1.3), (float) (Car.CAR_HEIGHT *1.3));
+    private void drawCar(float runTime) {
+        batcher.draw((TextureRegion) busAnimation.getKeyFrame(runTime), car1.getCar1().x, car1.getCar1().y - 0,
+                (float) (Car.CAR_WIDTH * 1.3), (float) (Car.CAR_HEIGHT * 1.3));
+        batcher.draw((TextureRegion) busAnimation.getKeyFrame(runTime), car2.getCar2().x, car2.getCar2().y - 0,
+                (float) (Car.CAR_WIDTH * 1.3), (float) (Car.CAR_HEIGHT * 1.3));
     }
-
 
 
     private void drawChuggyCentered(float runTime) {
         batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime), 59, chuggy.getY() - 15,
-                CHUGGY_WIDTH/2, CHUGGY_HEIGHT/2,
+                CHUGGY_WIDTH / 2, CHUGGY_HEIGHT / 2,
                 CHUGGY_WIDTH, CHUGGY_HEIGHT, 1, 1, chuggy.getRotation());
     }
 
@@ -187,24 +191,21 @@ public class GameRenderer {
 
         if (chuggy.shouldntWalk()) {
             batcher.draw(chuggyMid, chuggy.getX(), chuggy.getY(),
-                    CHUGGY_WIDTH/2, CHUGGY_HEIGHT/2,
+                    CHUGGY_WIDTH / 2, CHUGGY_HEIGHT / 2,
                     CHUGGY_WIDTH, CHUGGY_HEIGHT, 1, 1, chuggy.getRotation());
 
         } else {
             batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime), chuggy.getX(),
-                    chuggy.getY(), CHUGGY_WIDTH/2,
-                    CHUGGY_HEIGHT/2, CHUGGY_WIDTH, CHUGGY_HEIGHT,
+                    chuggy.getY(), CHUGGY_WIDTH / 2,
+                    CHUGGY_HEIGHT / 2, CHUGGY_WIDTH, CHUGGY_HEIGHT,
                     1, 1, chuggy.getRotation());
         }
 
     }
 
 
-
-
-
     private void drawMenuUI() {
-        batcher.draw(AssetLoader.cdLogo, 136 / 2 - 60, midPointY - 75,
+        batcher.draw(AssetLoader.cdLogo, 136 / 2 - 53, midPointY - 70,
                 AssetLoader.cdLogo.getRegionWidth() / 1.1f,
                 AssetLoader.cdLogo.getRegionHeight() / 1.1f);
 
@@ -214,79 +215,69 @@ public class GameRenderer {
 
     }
 
-	private void drawScoreboard() {
-		batcher.draw(scoreboard, 22, midPointY - 30, 97, 37);
+    private void drawScoreboard() {
+        batcher.draw(scoreboard, 0, 0, 144, 183);
 
-		batcher.draw(noStar, 25, midPointY - 15, 10, 10);
-		batcher.draw(noStar, 37, midPointY - 15, 10, 10);
-		batcher.draw(noStar, 49, midPointY - 15, 10, 10);
-		batcher.draw(noStar, 61, midPointY - 15, 10, 10);
-		batcher.draw(noStar, 73, midPointY - 15, 10, 10);
 
-		if (myWorld.getScore() > 2) {
-			batcher.draw(star, 73, midPointY - 15, 10, 10);
-		}
+        if (myWorld.getScore() > 3) {  // was 17
+            batcher.draw(smile2, 33, 89, 33, 30);
+        }
 
-		if (myWorld.getScore() > 17) {
-			batcher.draw(star, 61, midPointY - 15, 10, 10);
-		}
+        if (myWorld.getScore() > 19) {      //was 50
+            batcher.draw(smile3, 33, 89, 33, 30);
+        }
 
-		if (myWorld.getScore() > 50) {
-			batcher.draw(star, 49, midPointY - 15, 10, 10);
-		}
+        if (myWorld.getScore() > 43) {      // was 80
+            batcher.draw(smile4, 33, 89, 33, 30);
+        }
 
-		if (myWorld.getScore() > 80) {
-			batcher.draw(star, 37, midPointY - 15, 10, 10);
-		}
+        if (myWorld.getScore() > 76) {     //was 120
+            batcher.draw(smile5, 33, 89, 33, 30);
+        }
 
-		if (myWorld.getScore() > 120) {
-			batcher.draw(star, 25, midPointY - 15, 10, 10);
-		}
+        int length = ("" + myWorld.getScore()).length();
 
-		int length = ("" + myWorld.getScore()).length();
+        AssetLoader.whiteFont.draw(batcher, "" + myWorld.getScore(),
+                96 - (2 * length), 92);
 
-		AssetLoader.whiteFont.draw(batcher, "" + myWorld.getScore(),
-				104 - (2 * length), midPointY - 20);
+        int length2 = ("" + AssetLoader.getHighScore()).length();
 
-		int length2 = ("" + AssetLoader.getHighScore()).length();
-		AssetLoader.whiteFont.draw(batcher, "" + AssetLoader.getHighScore(),
-				104 - (2.5f * length2), midPointY - 3);
+        AssetLoader.whiteFont.draw(batcher, "" + AssetLoader.getHighScore(),
+                96 - (2f * length2), 109);
 
-	}
+    }
 
-	private void drawRetry() {
-		batcher.draw(retry, 36, midPointY + 10, 66, 14);
-	}
+    private void drawRetry() {
 
-	private void drawReady() {
-		batcher.draw(ready, 36, midPointY - 50, 68, 14);
-	}
+        for (SimpleButton button : retryButtons) {
+            button.draw(batcher);
+        }
+    }
 
-	private void drawGameOver() {
-		batcher.draw(gameOver, 24, midPointY - 50, 92, 14);
-	}
 
-	private void drawScore() {
-		int length = ("" + myWorld.getScore()).length();
-		AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),
-				68 - (3 * length), midPointY - 82);
-		AssetLoader.font.draw(batcher, "" + myWorld.getScore(),
-				68 - (3 * length), midPointY - 83);
-	}
+    private void drawReady() {
+        batcher.draw(ready, 36, midPointY - 50, 68, 14);
+    }
 
-	private void drawHighScore() {
-		batcher.draw(highScore, 22, midPointY - 50, 96, 14);
-	}
 
-	public void render(float delta, float runTime) {
+    private void drawScore() {
+        int length = ("" + myWorld.getScore()).length();
+        AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),
+                68 - (3 * length), midPointY - 82);
+        AssetLoader.font.draw(batcher, "" + myWorld.getScore(),
+                68 - (3 * length), midPointY - 83);
+    }
+
+    private void drawHighScore() {
+        batcher.draw(highScore, 22, 53, 93, 29);
+    }
+
+    public void render(float delta, float runTime) {
 
 
         // Fill the entire screen with black, to prevent potential flickering.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
-
 
 
         // Begin SpriteBatch
@@ -299,35 +290,40 @@ public class GameRenderer {
         batcher.enableBlending();
 
 
-
-
-		if (myWorld.isRunning()) {
-			drawChuggy(runTime);
-            drawChuggers(runTime);
-
-            drawCar(runTime);
-
-            drawScore();
-		} else if (myWorld.isReady()) {
-			drawChuggy(runTime);
-			drawReady();
-		} else if (myWorld.isMenu()) {
-			drawChuggyCentered(runTime);
-			drawMenuUI();
-		} else if (myWorld.isGameOver()) {
-            drawChuggers(runTime);
-            drawCar(runTime);
+        if (myWorld.isRunning()) {
             drawChuggy(runTime);
-            drawScoreboard();
+            drawChuggers(runTime);
+            drawCar(runTime);
+            drawScore();
+        } else if (myWorld.isReady()) {
+            drawChuggy(runTime);
 
-			drawGameOver();
-			drawRetry();
-		} else if (myWorld.isHighScore()) {
-			drawScoreboard();
-			drawChuggy(runTime);
-			drawHighScore();
-			drawRetry();
-		}
+            drawReady();
+        } else if (myWorld.isMenu()) {
+            drawChuggyCentered(runTime);
+            drawMenuUI();
+        }
+
+//        else if (myWorld.isChugged()) {
+//            drawChuggers(runTime);
+//            drawCar(runTime);
+//            drawChuggy(runTime);
+//            drawChugged();
+//        }
+
+        else if (myWorld.isGameOver()) {
+//            drawChuggers(runTime);
+//            drawCar(runTime);
+//            drawChuggy(runTime);
+            drawScoreboard();
+            //  drawGameOver();
+            drawRetry();     // Add in button retyr
+        } else if (myWorld.isHighScore()) {
+            drawScoreboard();
+//            drawChuggy(runTime);
+            drawHighScore();
+            drawRetry();      //Add in button retry
+        }
 
 
         // End SpriteBatch
@@ -382,7 +378,7 @@ public class GameRenderer {
 //
 //        shapeRenderer.end();
 
-       drawTransition(delta);
+        drawTransition(delta);
 
     }
 
@@ -407,7 +403,7 @@ public class GameRenderer {
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
 
-		}
-	}
+        }
+    }
 
 }
