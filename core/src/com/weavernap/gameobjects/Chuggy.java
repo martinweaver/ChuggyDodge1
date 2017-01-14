@@ -62,7 +62,7 @@ public class Chuggy {
 
         // Set the circle's center to be (9, 6) with respect to the bird.
         // Set the circle's radius to be 6.5f;
-        boundingCircle.set(position.x + (getHeight()/2), position.y + (getWidth()/2), 8.1f);
+        boundingCircle.set(position.x + (getHeight()/2), position.y + (getWidth()/2), 7.8f);
 
         // Rotate counterclockwise
         if (velocity.y < 0) {
@@ -140,10 +140,10 @@ public class Chuggy {
     }
 
 
-    public void decelerate() {
-        // We want chuggy to stop accelerating once it is chugged.
-        acceleration.y = 0;
-    }
+//    public void decelerate() {
+//        // We want chuggy to stop accelerating once it is chugged.
+//        acceleration.y = 0;
+//    }
 
     public void onRestart(int y) {
         rotation = 0;
