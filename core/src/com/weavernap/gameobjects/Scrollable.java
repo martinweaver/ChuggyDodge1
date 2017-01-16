@@ -6,6 +6,8 @@ package com.weavernap.gameobjects;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 
 public class Scrollable {
 
@@ -15,10 +17,14 @@ public class Scrollable {
     protected int width;
     protected int height;
     protected int midChange;
+
     protected int randCar;
     protected int carGap;
+
     protected boolean isScrolledLeft;
     protected boolean isScrolledRight;
+
+    public Random randBusY;
 
     public Scrollable(float x, float y, int width, int height, float scrollSpeed) {
         position = new Vector2(x, y);
@@ -65,6 +71,14 @@ public class Scrollable {
 
     public float getTailX() {
         return position.x + width;
+    }
+
+        public int getBusY()
+    {
+        Random randBusY = new Random();
+
+        int busY = randBusY.nextInt(40 - 28 ) + 28;
+        return busY;
     }
 
     public float getX() {

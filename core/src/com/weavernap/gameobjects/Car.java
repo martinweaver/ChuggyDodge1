@@ -37,8 +37,8 @@ public class Car extends Scrollable {
         // along with the width and height of the rectangle
 
 
-        boundingCar1.set(position.x  -120, position.y, (float) (CAR_WIDTH * 1.25), (float) (CAR_HEIGHT * 1.25));
-        boundingCar2.set(position.x  -120, position.y, (float) (CAR_WIDTH * 1.25), (float) (CAR_HEIGHT * 1.25));
+        boundingCar1.set(position.x  -120, position.y - height, (float) (CAR_WIDTH * 1.25), (float) (CAR_HEIGHT * 1.25));
+        boundingCar2.set(position.x  -120, position.y - height, (float) (CAR_WIDTH * 1.25), (float) (CAR_HEIGHT * 1.25));
     }
 
     @Override
@@ -46,8 +46,7 @@ public class Car extends Scrollable {
         // Call the reset method in the superclass (Scrollable)
         super.reset(newX);
 
-        height = r.nextInt(170 - 150) + 150;
-
+        height = getBusY();
 
     }
 

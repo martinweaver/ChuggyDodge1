@@ -42,8 +42,8 @@ public class ScrollHandler {
         chugger3 = new Chuggers(chugger2.getTailX() + CHUGGER_GAP, 0, 18, 18, SCROLL_SPEED, yPos);
 
 
-        car1 = new Car(-10, 162, 40, 40, CAR_SPEED);
-        car2 = new Car(car1.getTailX() - 200, 168, 40, 40, CAR_SPEED);
+        car1 = new Car(-10, 214, 40, 40, CAR_SPEED);
+        car2 = new Car(car1.getTailX() - 200, 212, 40, 40, CAR_SPEED);
 
 
 
