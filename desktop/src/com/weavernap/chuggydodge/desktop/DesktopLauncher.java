@@ -7,9 +7,9 @@ import com.weavernap.chuggydodge.CDGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "Chuggy Dodge";
+		config.title = "Chugger Dodge";
 		config.width = 272;
 		config.height = 408;
-		new LwjglApplication(new CDGame(), config);
+		new LwjglApplication(new CDGame(null), config);
 	}
 }

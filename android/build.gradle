@@ -1,4 +1,12 @@
 android {
+    signingConfigs {
+        config {
+            keyAlias 'ChuggerDodge2Key'
+            keyPassword 'Faster6791key'
+            storeFile file('/Users/martinweaver/keystores/chuggerdodge2.jks')
+            storePassword 'Faster6791key'
+        }
+    }
     buildToolsVersion "24.0.2"
     compileSdkVersion 25
     sourceSets {
@@ -26,6 +34,16 @@ android {
         versionName "1.2"
     }
     productFlavors {
+    }
+    buildTypes {
+        release {
+            debuggable false
+            jniDebuggable false
+            signingConfig signingConfigs.config
+            renderscriptDebuggable false
+            minifyEnabled false
+            zipAlignEnabled true
+        }
     }
 }
 // called every time gradle gets executed, takes the native dependencies of

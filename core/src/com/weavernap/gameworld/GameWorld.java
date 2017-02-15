@@ -1,10 +1,11 @@
 package com.weavernap.gameworld;
 
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
+import com.weavernap.cdHelpers.AdsController;
 import com.weavernap.cdHelpers.AssetLoader;
 import com.weavernap.gameobjects.Chuggy;
 import com.weavernap.gameobjects.ScrollHandler;
+
+import java.util.Random;
 
 /**
  * Created by martinweaver on 27/12/2016.
@@ -14,7 +15,6 @@ public class GameWorld {
 
     private Chuggy chuggy;
     private ScrollHandler scroller;
-    private Rectangle road;
     private int score = 0;
     private float runTime = 0;
     private int midPointY;
@@ -22,17 +22,24 @@ public class GameWorld {
 
     private GameState currentState;
 
+    public AdsController adsController;
+
+
+    private Random rnd = new Random();
+    private int timesToAd = 0;
+
+
     public enum GameState {
         MENU, READY, RUNNING, GAMEOVER, HIGHSCORE
     }
 
-    public GameWorld(int midPointY) {
+    public GameWorld(int midPointY, AdsController adsController) {
         currentState = GameState.MENU;
         this.midPointY = midPointY;
+        this.adsController = adsController;
         chuggy = new Chuggy(33, midPointY - 5, 17, 12);
         // The kerb bg should start 150 (was 66) pixels below the midPointY
-        scroller = new ScrollHandler(this, midPointY -150 );
-        road = new Rectangle(0, midPointY + 280, 136, 11); //will summon car..?
+        scroller = new ScrollHandler(this, midPointY - 150);
     }
 
     public void update(float delta) {
@@ -42,16 +49,22 @@ public class GameWorld {
             case READY:
             case MENU:
                 updateReady(delta);
+
                 break;
 
             case RUNNING:
                 updateRunning(delta);
                 break;
             default:
+
                 break;
         }
-
     }
+
+
+
+
+
 
     private void updateReady(float delta) {
         chuggy.updateReady(runTime);
@@ -59,6 +72,8 @@ public class GameWorld {
     }
 
     public void updateRunning(float delta) {
+
+
         // Add a delta cap so that if our game takes too long
         // to update, we will not break our collision detection.
 
@@ -71,35 +86,40 @@ public class GameWorld {
         if (scroller.collides(chuggy) && chuggy.isAlive()) {
             scroller.stop();
             chuggy.die();
-            AssetLoader.dead.play();
-            renderer.prepareTransition(255, 255, 255, .3f);
+
 
             AssetLoader.fall.play();
-            currentState = GameState.GAMEOVER; //Should this be here?
 
-            if (score > AssetLoader.getHighScore()) {
-                AssetLoader.setHighScore(score);
-                currentState = GameState.HIGHSCORE;
 
-            }
-        }
-        if (Intersector.overlaps(chuggy.getBoundingCircle(), road)) {
+            renderer.prepareTransition(255, 255, 255, .3f);
 
-            if (chuggy.isAlive()) {
-                AssetLoader.dead.play();
-                renderer.prepareTransition(255, 255, 255, .3f);
-                AssetLoader.fall.play();
-                chuggy.die();
-            }
-            scroller.stop();
-            chuggy.decelerate();
             currentState = GameState.GAMEOVER;
 
             if (score > AssetLoader.getHighScore()) {
                 AssetLoader.setHighScore(score);
                 currentState = GameState.HIGHSCORE;
+
             }
+
+            this.adsController.unlockAchievementGPGS(this.score);
+            this.adsController.submitScoreGPGS(this.score);
         }
+
+
+    }
+
+    public AdsController getAdsController() {
+
+        return this.adsController;
+    }
+
+
+    public void getAchievementsGPGS() {
+        this.adsController.getAchievementsGPGS();
+    }
+
+    public void getLeaderboardGPGS() {
+        this.adsController.getGPGSLeaderboard();
     }
 
     public Chuggy getChuggy() {
@@ -132,6 +152,7 @@ public class GameWorld {
     }
 
     public void restart() {
+
         score = 0;
         chuggy.onRestart(midPointY - 5);
         scroller.onRestart();
@@ -141,6 +162,7 @@ public class GameWorld {
     public boolean isReady() {
         return currentState == GameState.READY;
     }
+
 
     public boolean isGameOver() {
         return currentState == GameState.GAMEOVER;
@@ -161,5 +183,25 @@ public class GameWorld {
     public void setRenderer(GameRenderer renderer) {
         this.renderer = renderer;
     }
+
+
+    //From http://code-4-games.blogspot.co.uk/2015/02/teil-2-admob-in-einem-libgdx-android.html
+
+    public int getTimesToAd() {
+        return timesToAd;
+
+    }
+
+    public void resetTimesToAd() {
+        this.timesToAd = rnd.nextInt(5) + 4;
+
+    }
+
+    public void decrementTimesToAd(int decrement) {
+        this.timesToAd = timesToAd - decrement;
+    }
+
+
+//
 
 }

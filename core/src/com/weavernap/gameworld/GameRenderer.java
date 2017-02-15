@@ -57,7 +57,7 @@ public class GameRenderer {
     private TextureRegion ready;
     private TextureRegion highScore;
     private TextureRegion scoreboard;
-    private TextureRegion smile2, smile3, smile4, smile5;
+    private TextureRegion smile2, smile3, smile4, smile5, smile42;
     private TextureRegion retry;
     private TextureRegion chuggyMid;
 
@@ -69,7 +69,10 @@ public class GameRenderer {
     private Value alpha = new Value();
 
     // Buttons
-    private List<SimpleButton> menuButtons, retryButtons;
+    private List<SimpleButton> menuButtons;
+    private List<SimpleButton> retryButtons;
+    private List<SimpleButton>  leaderboardButtons;
+    private List<SimpleButton>  achievementsButtons;
     private Color transitionColor;
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
@@ -85,6 +88,12 @@ public class GameRenderer {
 
         this.retryButtons = ((InputHandler) Gdx.input.getInputProcessor())
                 .getRetryButtons();
+
+        this.achievementsButtons =  ((InputHandler) Gdx.input.getInputProcessor())
+                .getAchievementsButtons();
+
+        this.leaderboardButtons = ((InputHandler) Gdx.input.getInputProcessor())
+                .getLeaderboardButtons();
 
         cam = new OrthographicCamera();
         cam.setToOrtho(true, 136, gameHeight);
@@ -127,7 +136,6 @@ public class GameRenderer {
         busAnimation = AssetLoader.busAnimation;
 
         ready = AssetLoader.ready;
-        // gameOver = AssetLoader.gameOver;
         highScore = AssetLoader.highScore;
         scoreboard = AssetLoader.scoreboard;
         retry = AssetLoader.retry;
@@ -135,7 +143,7 @@ public class GameRenderer {
         smile3 = AssetLoader.smile3;
         smile4 = AssetLoader.smile4;
         smile5 = AssetLoader.smile5;
-        //  noStar = AssetLoader.noStar;
+        smile42 = AssetLoader.smile42;
     }
 
     private void drawKerb() {
@@ -219,19 +227,22 @@ public class GameRenderer {
         batcher.draw(scoreboard, 0, 0, 144, 183);
 
 
-        if (myWorld.getScore() > 3) {  // was 17
+        if (myWorld.getScore() > 3) {
             batcher.draw(smile2, 33, 89, 33, 30);
         }
 
-        if (myWorld.getScore() > 19) {      //was 50
+        if (myWorld.getScore() > 19) {
             batcher.draw(smile3, 33, 89, 33, 30);
         }
 
-        if (myWorld.getScore() > 43) {      // was 80
+        if (myWorld.getScore() == 42) {
+            batcher.draw(smile42, 33, 88, 33, 30);
+        }
+        if (myWorld.getScore() > 43) {
             batcher.draw(smile4, 33, 89, 33, 30);
         }
 
-        if (myWorld.getScore() > 76) {     //was 120
+        if (myWorld.getScore() > 76) {
             batcher.draw(smile5, 33, 89, 33, 30);
         }
 
@@ -250,6 +261,20 @@ public class GameRenderer {
     private void drawRetry() {
 
         for (SimpleButton button : retryButtons) {
+            button.draw(batcher);
+        }
+    }
+
+    private void drawAchievementsButton() {
+
+        for (SimpleButton button : achievementsButtons) {
+            button.draw(batcher);
+        }
+    }
+
+    private void drawLeaderboardButton() {
+
+        for (SimpleButton button : leaderboardButtons) {
             button.draw(batcher);
         }
     }
@@ -299,30 +324,36 @@ public class GameRenderer {
             drawChuggy(runTime);
 
             drawReady();
+//            drawAchievementsButton();
+//            drawLeaderboardButton();
+
+
         } else if (myWorld.isMenu()) {
             drawChuggyCentered(runTime);
             drawMenuUI();
+//            drawAchievementsButton();
+//            drawLeaderboardButton();
         }
 
-//        else if (myWorld.isChugged()) {
-//            drawChuggers(runTime);
-//            drawCar(runTime);
-//            drawChuggy(runTime);
-//            drawChugged();
-//        }
+
 
         else if (myWorld.isGameOver()) {
-//            drawChuggers(runTime);
-//            drawCar(runTime);
-//            drawChuggy(runTime);
+            drawChuggers(runTime);
+            drawCar(runTime);
+            drawChuggy(runTime);
             drawScoreboard();
-            //  drawGameOver();
-            drawRetry();     // Add in button retyr
+            drawRetry();
+            drawAchievementsButton();
+            drawLeaderboardButton();
         } else if (myWorld.isHighScore()) {
+            drawChuggers(runTime);
+            drawCar(runTime);
+            drawChuggy(runTime);
             drawScoreboard();
-//            drawChuggy(runTime);
             drawHighScore();
-            drawRetry();      //Add in button retry
+            drawRetry();
+            drawAchievementsButton();
+            drawLeaderboardButton();
         }
 
 

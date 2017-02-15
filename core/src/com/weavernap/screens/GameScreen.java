@@ -2,6 +2,7 @@ package com.weavernap.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.weavernap.cdHelpers.AdsController;
 import com.weavernap.cdHelpers.InputHandler;
 import com.weavernap.gameworld.GameRenderer;
 import com.weavernap.gameworld.GameWorld;
@@ -17,7 +18,7 @@ public class GameScreen implements Screen {
 	private float runTime;
 
 	// This is the constructor, not the class declaration
-	public GameScreen() {
+	public GameScreen(AdsController adsController) {
 
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
@@ -25,7 +26,7 @@ public class GameScreen implements Screen {
 		float gameHeight = screenHeight / (screenWidth / gameWidth);
 		int midPointY = (int) (gameHeight / 2);
 
-		world = new GameWorld(midPointY);
+		world = new GameWorld(midPointY, adsController);
 		Gdx.input.setInputProcessor(new InputHandler(world, screenWidth / gameWidth, screenHeight / gameHeight));
 		renderer = new GameRenderer(world, (int) gameHeight, midPointY);
 		world.setRenderer(renderer);
@@ -36,6 +37,7 @@ public class GameScreen implements Screen {
         runTime += delta;
         world.update(delta); // GameWorld updates
         renderer.render(delta, runTime); // GameRenderer renders
+
     }
 
 	@Override

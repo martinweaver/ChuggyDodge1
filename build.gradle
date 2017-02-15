@@ -9,6 +9,7 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.0'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
@@ -16,9 +17,9 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.0'
+    version = '2.0'
     ext {
-        appName = "ChuggyDodge"
+        appName = "Chugger Dodge"
         gdxVersion = '1.9.5'
         roboVMVersion = '2.3.0'
         box2DLightsVersion = '1.4'
@@ -66,8 +67,13 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         compile fileTree(dir: '../libs/tween-engine-api-6.3.3 2', include: '*.jar')
+        compile 'com.google.firebase:firebase-core:10.0.1'
+        compile 'com.google.firebase:firebase-ads:10.0.1'
+        compile 'com.google.android.gms:play-services-games:10.0.1'
+        compile project(':BaseGameUtils')
 
     }
+    apply plugin: 'com.google.gms.google-services'
 }
 
 project(":ios") {

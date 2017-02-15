@@ -19,17 +19,17 @@ public class InputHandler implements InputProcessor {
     private Chuggy myChuggy;
     private GameWorld myWorld;
 
-    private List<SimpleButton> menuButtons;
+    private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons;
 
-    private SimpleButton playButton;
+    private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
-
+//    private AdsController adsController;
 
     // Ask for a reference to Chuggy when InputHandler is created.
     public InputHandler(GameWorld myWorld, float scaleFactorX, float scaleFactorY) {
-        // myBird now represents the gameWorld's bird.
+        // myChuggy now represents the gameWorld's chuggy.
         this.myWorld = myWorld;
         myChuggy = myWorld.getChuggy();
 
@@ -41,29 +41,50 @@ public class InputHandler implements InputProcessor {
         menuButtons = new ArrayList<SimpleButton>();
         playButton = new SimpleButton(
                 136 / 2 - (AssetLoader.playButtonUp.getRegionWidth() / 2),
-                midPointY + 50, 29, 16, AssetLoader.playButtonUp,
+                midPointY + 25, 54, 25, AssetLoader.playButtonUp,
                 AssetLoader.playButtonDown);
         menuButtons.add(playButton);
+
+        retryButtons = new ArrayList<SimpleButton>();
+        retryButton = new SimpleButton(47, 130, 44, 22, AssetLoader.retryButtonUp,
+                AssetLoader.retryButtonDown);
+        retryButtons.add(retryButton);
+
+        achievementsButtons = new ArrayList<SimpleButton>();
+        this.achievementsButton = new SimpleButton(25.0f, 134.0f, 15.0f, 15.0f, AssetLoader.achievementsButton,
+                AssetLoader.achievementsButton);
+        achievementsButtons.add(achievementsButton);
+
+        leaderboardButtons = new ArrayList<SimpleButton>();
+        this.leaderboardButton = new SimpleButton(97.0f, 134.0f, 16.0f, 16.0f, AssetLoader.leaderboardButton,
+                AssetLoader.leaderboardButton);
+        leaderboardButtons.add(leaderboardButton);
+
     }
 
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		screenX = scaleX(screenX);
-		screenY = scaleY(screenY);
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        screenX = scaleX(screenX);
+        screenY = scaleY(screenY);
 
-		if (myWorld.isMenu()) {
-			playButton.isTouchDown(screenX, screenY);
-		} else if (myWorld.isReady()) {
-			myWorld.start();
-			myChuggy.onClick();
-		} else if (myWorld.isRunning()) {
-			myChuggy.onClick();
-		}
+        if (myWorld.isMenu()) {
+            playButton.isTouchDown(screenX, screenY);
+//            achievementsButton.isTouchDown(screenX, screenY);
+//            leaderboardButton.isTouchDown(screenX, screenY);
 
-        if (myWorld.isGameOver() || myWorld.isHighScore()){
-            //rReset all variables, go to GameState.READ
-            myWorld.restart();
+        } else if (myWorld.isReady()) {
+            myWorld.start(); // put this in touchup??
+
+        } else if (myWorld.isRunning()) {
+            myChuggy.onClick();
         }
+
+        if (myWorld.isGameOver() || myWorld.isHighScore()) {
+            retryButton.isTouchDown(screenX, screenY);
+            achievementsButton.isTouchDown(screenX, screenY);
+            leaderboardButton.isTouchDown(screenX, screenY);
+        }
+
         return true; // Return true to say we handled the touch.;
     }
 
@@ -77,9 +98,59 @@ public class InputHandler implements InputProcessor {
                 myWorld.ready();
                 return true;
             }
+
+
+//            if (this.achievementsButton.isTouchUp(screenX, screenY)) {
+//                this.myWorld.getAchievementsGPGS();
+//                return true;
+//            }
+//
+//            if (this.leaderboardButton.isTouchUp(screenX, screenY));
+//           // if (myWorld.adsController.getSignedInGPGS())
+//            {
+//                this.myWorld.getLeaderboardGPGS();
+//                return true;
+//            }
+
+
+
+        }
+        if (myWorld.isReady()) {
+
         }
 
+        if (myWorld.isGameOver() || myWorld.isHighScore()) {
+            if (retryButton.isTouchUp(screenX, screenY)) {
+
+                myWorld.restart();
+                //German guy's code Toastergame
+
+                if (myWorld.getTimesToAd() <= 0) {
+                    myWorld.resetTimesToAd();
+                    myWorld.getAdsController().showOrLoadInterstitial(true);
+                    return true;
+                }
+                //else
+                {
+                    myWorld.getAdsController().showOrLoadInterstitial(false);
+                    myWorld.decrementTimesToAd(1);
+                    return true;
+                }
+
+            }
+
+            if (this.achievementsButton.isTouchUp(screenX, screenY)) {
+                this.myWorld.getAchievementsGPGS();
+            }
+            if (this.leaderboardButton.isTouchUp(screenX, screenY)) {
+                this.myWorld.getLeaderboardGPGS();
+            }
+
+
+        }
         return false;
+
+
     }
 
     @Override
@@ -92,9 +163,9 @@ public class InputHandler implements InputProcessor {
                 myWorld.ready();
             } else if (myWorld.isReady()) {
                 myWorld.start();
+            } else if (myWorld.isRunning()) {
+                myChuggy.onClick();
             }
-
-            myChuggy.onClick();
 
             if (myWorld.isGameOver() || myWorld.isHighScore()) {
                 myWorld.restart();
@@ -104,8 +175,6 @@ public class InputHandler implements InputProcessor {
 
         return false;
     }
-
-
 
     @Override
     public boolean keyUp(int keycode) {
@@ -143,5 +212,17 @@ public class InputHandler implements InputProcessor {
 
     public List<SimpleButton> getMenuButtons() {
         return menuButtons;
+    }
+
+    public List<SimpleButton> getRetryButtons() {
+        return retryButtons;
+    }
+
+    public List<SimpleButton> getAchievementsButtons() {
+        return achievementsButtons;
+    }
+
+    public List<SimpleButton> getLeaderboardButtons() {
+        return leaderboardButtons;
     }
 }

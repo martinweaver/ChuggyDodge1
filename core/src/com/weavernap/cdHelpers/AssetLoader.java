@@ -13,15 +13,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     public static Texture texture, logoTexture, textureChuggy, textureChugger, kerbTexture, cdLogoTexture, busTexture;
-    public static TextureRegion logo,  playButtonUp, playButtonDown,
-            ready, gameOver, highScore, scoreboard, star, noStar, retry,
+    public static TextureRegion logo,  retryButtonUp, retryButtonDown,leaderboardButton, achievementsButton, playButtonUp, playButtonDown,
+            ready, highScore, scoreboard,
+            retry,
             chuggyForward, chuggyBack, chuggy, chuggerUp, chugger, chuggerDown,
-            chuggerTop, chuggerCentre, chuggerBottom, kerb, cdLogo, carPic, busOne, busTwo, busThree;
+            chuggerTop, chuggerCentre, chuggerBottom, kerb, cdLogo, carPic,
+            busOne, busTwo, busThree, smile2, smile3, smile4, smile5, smile42;
 
     public static Animation chuggerAnimation, chuggyAnimation, busAnimation;
 
 
-    public static Sound dead, coin, flap, fall;
+    public static Sound  coin, flap, fall, lunch;
     public static BitmapFont font, shadow, whiteFont;
 
     public static Preferences prefs;
@@ -57,37 +59,65 @@ public class AssetLoader {
         carPic.flip(false, true);
 
         cdLogoTexture = new Texture(Gdx.files.internal("data/cdlogo.png"));
-        cdLogoTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        cdLogoTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
-        cdLogo = new TextureRegion(cdLogoTexture, 0, 40, 120, 55);
+        cdLogo = new TextureRegion(cdLogoTexture, 0, 0, 120, 55);
         cdLogo.flip(false, true);
 
 
-        playButtonUp = new TextureRegion(texture, 0, 83, 29, 16);
-        playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
+        playButtonUp = new TextureRegion(texture, 214, 182, 55, 27);
+        playButtonDown = new TextureRegion(texture, 214, 155, 55, 27);
         playButtonUp.flip(false, true);
         playButtonDown.flip(false, true);
 
-        ready = new TextureRegion(texture, 59, 83, 34, 7);
+        retryButtonUp = new TextureRegion(texture, 213, 80, 44, 22);
+        retryButtonDown = new TextureRegion(texture, 213, 103, 44, 22);
+        retryButtonUp.flip(false, true);
+        retryButtonDown.flip(false, true);
+
+        achievementsButton = new TextureRegion(texture, 190, 133, 16, 16);
+        achievementsButton.flip(false, true);
+
+        leaderboardButton = new TextureRegion(texture, 215, 131, 25, 21);
+        leaderboardButton.flip(false, true);
+
+
+
+        ready = new TextureRegion(texture, 161, 63, 97, 17);
         ready.flip(false, true);
+
+
+        highScore = new TextureRegion(texture, 160, 30, 93, 31);
+        highScore.flip(false, true);
+
 
         retry = new TextureRegion(texture, 59, 110, 33, 7);
         retry.flip(false, true);
 
-        gameOver = new TextureRegion(texture, 59, 92, 46, 7);
-        gameOver.flip(false, true);
 
-        scoreboard = new TextureRegion(texture, 111, 83, 97, 37);
+
+        scoreboard = new TextureRegion(texture, 6, 1, 158, 203);
         scoreboard.flip(false, true);
 
-        star = new TextureRegion(texture, 152, 70, 10, 10);
-        noStar = new TextureRegion(texture, 165, 70, 10, 10);
 
-        star.flip(false, true);
-        noStar.flip(false, true);
 
-        highScore = new TextureRegion(texture, 59, 101, 48, 7);
-        highScore.flip(false, true);
+        smile2 = new TextureRegion(texture, 160, 1, 33, 30);
+        smile2.flip(false, true);
+
+        smile3 = new TextureRegion(texture, 193, 1, 33, 30);
+        smile3.flip(false, true);
+
+        smile4 = new TextureRegion(texture, 226, 1, 33, 30);
+        smile4.flip(false, true);
+
+        smile5 = new TextureRegion(texture, 259, 1, 33, 30);
+        smile5.flip(false, true);
+
+        smile42 = new TextureRegion(texture, 260, 30, 36, 41);
+        smile42.flip(false, true);
+
+
+
 
         chuggyForward = new TextureRegion(textureChuggy, 74, 8, 12, 17);
         chuggyForward.flip(false, true);
@@ -116,10 +146,6 @@ public class AssetLoader {
         chuggerAnimation = new Animation(0.13f, chuggers);
         chuggerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-//        skullUp = new TextureRegion(texture, 192, 0, 24, 14);
-//        // Create by flipping existing skullUp
-//        skullDown = new TextureRegion(skullUp);
-//        skullDown.flip(false, true);
 
         chuggerTop = new TextureRegion(textureChugger, 70, 8, 17, 17);
         chuggerTop.flip(false, true);
@@ -141,13 +167,12 @@ public class AssetLoader {
         busAnimation = new Animation(0.2f, buses);
         busAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-//        bar = new TextureRegion(texture, 136, 16, 22, 3);
-//        bar.flip(false, true);
 
-        dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));
-        flap = Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));
-        coin = Gdx.audio.newSound(Gdx.files.internal("data/coin.wav"));
-        fall = Gdx.audio.newSound(Gdx.files.internal("data/fall.wav"));
+     //   dead = Gdx.audio.newSound(Gdx.files.internal("data/chugged8.wav")); //orig dead
+        flap = Gdx.audio.newSound(Gdx.files.internal("data/no15H10.wav")); // flap
+        coin = Gdx.audio.newSound(Gdx.files.internal("data/coin4H10.wav")); // coin
+        fall = Gdx.audio.newSound(Gdx.files.internal("data/chugged6H10.wav")); // fall
+        lunch = Gdx.audio.newSound(Gdx.files.internal("data/lunch3H10.wav")); // fall
 
         font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
         font.getData().setScale(.25f, -.25f);
@@ -158,7 +183,7 @@ public class AssetLoader {
         shadow.getData().setScale(.25f, -.25f);
 
         // Create (or retrieve existing) preferences file
-        prefs = Gdx.app.getPreferences("ChuggyDodge");
+        prefs = Gdx.app.getPreferences("Chugger Dodge");
 
 // Provide default high score of 0
         if (!prefs.contains("highScore")) {
@@ -180,9 +205,11 @@ public class AssetLoader {
     public static void dispose() {
         // We must dispose of the texture when we are finished.
         texture.dispose();
-        dead.dispose();
+     //   dead.dispose();
         flap.dispose();
         coin.dispose();
+        fall.dispose();
+        lunch.dispose();
 
         font.dispose();
         shadow.dispose();
@@ -192,7 +219,8 @@ public class AssetLoader {
         textureChugger.dispose();
         kerbTexture.dispose();
         cdLogoTexture.dispose();
-       // carTexture.dispose(); add once car is drawn
+       busTexture.dispose();
+
     }
 
 }

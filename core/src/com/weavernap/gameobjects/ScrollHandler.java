@@ -12,7 +12,6 @@ public class ScrollHandler {
     private Chuggers chugger1, chugger2, chugger3;
     private Car car1, car2;
 
-    public Random randCar;
 
     // ScrollHandler will use the constants below to determine
     // how fast we need to scroll and also determine
@@ -23,7 +22,6 @@ public class ScrollHandler {
     public static final int SCROLL_SPEED = -69;
     public static final int CHUGGER_GAP = 59;
     public static final int CAR_SPEED = 150;
-    //  public static final int CAR_GAP = carGap;
 
 
     private GameWorld gameWorld;
@@ -37,16 +35,13 @@ public class ScrollHandler {
         frontKerb = new Kerb(0, yPos, 136, 500, SCROLL_SPEED);
         backKerb = new Kerb(frontKerb.getTailX(), yPos, 136, 500, SCROLL_SPEED);
 
-        chugger1 = new Chuggers(210, 0, 18, 18, SCROLL_SPEED, yPos);
-        chugger2 = new Chuggers(chugger1.getTailX() + CHUGGER_GAP, 0, 18, 18, SCROLL_SPEED, yPos); //Are these 16 by 16 everywhere?
-        chugger3 = new Chuggers(chugger2.getTailX() + CHUGGER_GAP, 0, 18, 18, SCROLL_SPEED, yPos);
+        chugger1 = new Chuggers(210, 0, 18, 18, SCROLL_SPEED);
+        chugger2 = new Chuggers(chugger1.getTailX() + CHUGGER_GAP, 0, 18, 18, SCROLL_SPEED);
+        chugger3 = new Chuggers(chugger2.getTailX() + CHUGGER_GAP, 0, 18, 18, SCROLL_SPEED);
 
 
         car1 = new Car(-10, 214, 40, 40, CAR_SPEED);
         car2 = new Car(car1.getTailX() - 200, 212, 40, 40, CAR_SPEED);
-
-
-
 
     }
 
@@ -188,17 +183,10 @@ public class ScrollHandler {
     {
         Random randCar = new Random();
 
-        int carGap = randCar.nextInt(900 - 100 + 1) + 100;
+        int carGap = randCar.nextInt(350) ;
         return carGap;
     }
 
-    //    public int getBusY()
-//    {
-//        Random randBusY = new Random();
-//
-//        int busY = randBusY.nextInt(150 - 140 ) + 140;
-//        return busY;
-//    }
 
     public void onRestart() {
         frontKerb.onRestart(0, SCROLL_SPEED);

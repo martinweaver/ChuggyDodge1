@@ -51,11 +51,13 @@ public class Chuggy {
         if (position.y < 0) {
             position.y = 0;
             velocity.y = -velocity.y;
+            acceleration.y = -acceleration.y;
         }
 
         if (position.y > 204) {
             position.y = 204;
             velocity.y = -velocity.y;
+            acceleration.y = -acceleration.y;
         }
 
         position.add(velocity.cpy().scl(delta));
@@ -137,6 +139,8 @@ public class Chuggy {
         velocity.y = 0;
         acceleration.y = 0;
         isAlive = false;
+
+
     }
 
 

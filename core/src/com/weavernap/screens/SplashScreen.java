@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.weavernap.TweenAccessors.SpriteAccessor;
+import com.weavernap.cdHelpers.AdsController;
 import com.weavernap.cdHelpers.AssetLoader;
 import com.weavernap.chuggydodge.CDGame;
 
@@ -21,13 +22,15 @@ import aurelienribon.tweenengine.TweenManager;
 
 public class SplashScreen implements Screen {
 
+    private AdsController adsController;
     private TweenManager manager;
     private SpriteBatch batcher;
     private Sprite sprite;
     private CDGame game;
 
-    public SplashScreen(CDGame game) {
+    public SplashScreen(CDGame game, AdsController adsController) {
         this.game = game;
+        this.adsController = adsController;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class SplashScreen implements Screen {
         TweenCallback cb = new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
-                game.setScreen(new GameScreen());
+                game.setScreen(new GameScreen(SplashScreen.this.adsController));
             }
         };
 

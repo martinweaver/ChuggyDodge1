@@ -32,9 +32,9 @@ public class SimpleButton {
 
     }
 
-    public boolean isClicked(int screenX, int screenY) {
-        return bounds.contains(screenX, screenY);
-    }
+  //  public boolean isClicked(int screenX, int screenY) {
+//        return bounds.contains(screenX, screenY);
+//    }
 
     public void draw(SpriteBatch batcher) {
         if (isPressed) {
@@ -59,7 +59,7 @@ public class SimpleButton {
         // It only counts as a touchUp if the button is in a pressed state.
         if (bounds.contains(screenX, screenY) && isPressed) {
             isPressed = false;
-            AssetLoader.flap.play();
+            AssetLoader.lunch.play();
             return true;
         }
 

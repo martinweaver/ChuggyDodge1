@@ -19,7 +19,7 @@ public class Chuggers extends Scrollable {
     public static final int CHUGGER_WIDTH = 20;
     public static final int CHUGGER_HEIGHT = 21;
 
-    private float roadY;
+   // private float roadY;
 
     private boolean isScored = false;
 
@@ -27,8 +27,10 @@ public class Chuggers extends Scrollable {
 
     // When Chugger's (was Pipe) constructor is invoked, invoke the super (Scrollable)
     // constructor
-    public Chuggers(float x, float y, int width, int height, float scrollSpeed,
-                    float roadY) {
+    public Chuggers(float x, float y, int width, int height, float scrollSpeed
+            //,
+                    //float roadY
+    ) {
         super(x, y, width, height, scrollSpeed);
         // Initialize a Random object for Random number generation
         r = new Random();
@@ -37,7 +39,7 @@ public class Chuggers extends Scrollable {
         boundingChuggerCentre = new Circle();
         boundingChuggerBottom = new Circle();
 
-        this.roadY = roadY;
+       // this.roadY = roadY;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class Chuggers extends Scrollable {
 
         boundingChuggerTop.set(position.x, position.y + height, 10f);
         boundingChuggerCentre.set(position.x, position.y + height + midChange + VERTICAL_GAP, 10f);
-        boundingChuggerBottom.set(position.x, position.y + height + (2*VERTICAL_GAP) - 8, 10f);
+        boundingChuggerBottom.set(position.x, position.y + height + (2*VERTICAL_GAP) - 0, 10f);
 
 
 

@@ -18,13 +18,10 @@ public class Scrollable {
     protected int height;
     protected int midChange;
 
-    protected int randCar;
-    protected int carGap;
 
     protected boolean isScrolledLeft;
     protected boolean isScrolledRight;
 
-    public Random randBusY;
 
     public Scrollable(float x, float y, int width, int height, float scrollSpeed) {
         position = new Vector2(x, y);
@@ -77,7 +74,7 @@ public class Scrollable {
     {
         Random randBusY = new Random();
 
-        int busY = randBusY.nextInt(40 - 28 ) + 28;
+        int busY = randBusY.nextInt(42 - 35 ) + 35;
         return busY;
     }
 
