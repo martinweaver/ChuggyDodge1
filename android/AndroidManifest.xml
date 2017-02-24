@@ -22,6 +22,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="Chugger Dodge"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

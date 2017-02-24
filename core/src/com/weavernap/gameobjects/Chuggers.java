@@ -55,7 +55,7 @@ public class Chuggers extends Scrollable {
 
         boundingChuggerTop.set(position.x, position.y + height, 10f);
         boundingChuggerCentre.set(position.x, position.y + height + midChange + VERTICAL_GAP, 10f);
-        boundingChuggerBottom.set(position.x, position.y + height + (2*VERTICAL_GAP) - 0, 10f);
+        boundingChuggerBottom.set(position.x, position.y + height + (2*VERTICAL_GAP) - 8, 10f);
 
 
 
@@ -66,7 +66,7 @@ public class Chuggers extends Scrollable {
         // Call the reset method in the superclass (Scrollable)
         super.reset(newX);
         // Change the height to a random number
-        height = r.nextInt(30) +15;
+        height = r.nextInt(38) +15;
         int Low = -25;
         int High = 25;
         midChange = r.nextInt(High - Low) + Low;

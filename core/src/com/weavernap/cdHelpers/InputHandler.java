@@ -100,19 +100,6 @@ public class InputHandler implements InputProcessor {
             }
 
 
-//            if (this.achievementsButton.isTouchUp(screenX, screenY)) {
-//                this.myWorld.getAchievementsGPGS();
-//                return true;
-//            }
-//
-//            if (this.leaderboardButton.isTouchUp(screenX, screenY));
-//           // if (myWorld.adsController.getSignedInGPGS())
-//            {
-//                this.myWorld.getLeaderboardGPGS();
-//                return true;
-//            }
-
-
 
         }
         if (myWorld.isReady()) {

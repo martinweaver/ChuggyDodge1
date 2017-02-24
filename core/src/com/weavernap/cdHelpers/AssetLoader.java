@@ -18,7 +18,7 @@ public class AssetLoader {
             retry,
             chuggyForward, chuggyBack, chuggy, chuggerUp, chugger, chuggerDown,
             chuggerTop, chuggerCentre, chuggerBottom, kerb, cdLogo, carPic,
-            busOne, busTwo, busThree, smile2, smile3, smile4, smile5, smile42;
+            busOne, busTwo, busThree, smile2, smile3, smile4, smile5, smile42, smile100;
 
     public static Animation chuggerAnimation, chuggyAnimation, busAnimation;
 
@@ -116,6 +116,9 @@ public class AssetLoader {
         smile42 = new TextureRegion(texture, 260, 30, 36, 41);
         smile42.flip(false, true);
 
+        smile100 = new TextureRegion(texture, 262, 79, 34, 34);
+        smile100.flip(false, true);
+
 
 
 
@@ -205,7 +208,6 @@ public class AssetLoader {
     public static void dispose() {
         // We must dispose of the texture when we are finished.
         texture.dispose();
-     //   dead.dispose();
         flap.dispose();
         coin.dispose();
         fall.dispose();

@@ -57,7 +57,7 @@ public class GameRenderer {
     private TextureRegion ready;
     private TextureRegion highScore;
     private TextureRegion scoreboard;
-    private TextureRegion smile2, smile3, smile4, smile5, smile42;
+    private TextureRegion smile2, smile3, smile4, smile5, smile42, smile100;
     private TextureRegion retry;
     private TextureRegion chuggyMid;
 
@@ -144,6 +144,7 @@ public class GameRenderer {
         smile4 = AssetLoader.smile4;
         smile5 = AssetLoader.smile5;
         smile42 = AssetLoader.smile42;
+        smile100 = AssetLoader.smile100;
     }
 
     private void drawKerb() {
@@ -237,6 +238,9 @@ public class GameRenderer {
 
         if (myWorld.getScore() == 42) {
             batcher.draw(smile42, 33, 88, 33, 30);
+        }
+        if (myWorld.getScore() == 100) {
+            batcher.draw(smile100, 33, 88, 33, 30);
         }
         if (myWorld.getScore() > 43) {
             batcher.draw(smile4, 33, 89, 33, 30);

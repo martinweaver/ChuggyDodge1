@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.view.View;
@@ -13,13 +14,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 import com.weavernap.cdHelpers.AdsController;
+
+
 
 
 public class AndroidLauncher extends AndroidApplication implements GameHelper.GameHelperListener, AdsController {
@@ -29,7 +31,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
         MultiDex.install(this);
     }
 
-    private static final String BANNER_AD_UNIT_ID = "ca-app-pub-3737397260010456/7958274520";
+ //   private static final String BANNER_AD_UNIT_ID = "ca-app-pub-3737397260010456/7958274520";
 
     private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3737397260010456/3314422124";
 
@@ -49,6 +51,9 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        hideSystemUi();
+
         super.onCreate(savedInstanceState);
 
 
@@ -63,7 +68,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
         relativeLayout.addView(adView);
         relativeLayout.addView(this.createGameView(config));
         this.setContentView(relativeLayout);
-        this.startAdvertising(adView);
+      //  this.startAdvertising(adView);
         this.interstitialAd = new InterstitialAd(this);
         this.interstitialAd.setAdUnitId(INTERSTITIAL_AD_UNIT_ID);
 
@@ -94,6 +99,18 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 //		setContentView(layout);
 
 
+    }
+
+    private void hideSystemUi() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 
 
@@ -156,13 +173,15 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
                 Games.Achievements.unlock(this.gameHelper.getApiClient(),
                         this.getString(R.string.achievement_the_every_loser_wins_trophy));
             }
+
             if (score > 3) {
                 Games.Achievements.unlock(this.gameHelper.getApiClient(),
                         this.getString(R.string.achievement_not_completely_useless));
             }
+
             if (score > 19) {
                 Games.Achievements.unlock(this.gameHelper.getApiClient(),
-                        this.getString(R.string.achievement_hey_youre_all_right_you_are_));
+                        this.getString(R.string.achievement_hey_youre_all_right_you_are));
             }
 
             if (score == 42) {
@@ -172,13 +191,18 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
             if (score > 43) {
                 Games.Achievements.unlock(this.gameHelper.getApiClient(),
-                        this.getString(R.string.achievement_wowzers__youre_about_as_good_as_me_now_));
+                        this.getString(R.string.achievement_wowzers_youre_about_as_good_as_me_now));
             }
 
 
             if (score > 76) {
                 Games.Achievements.unlock(this.gameHelper.getApiClient(),
-                        this.getString(R.string.achievement_actually_thats_quite_impressive_));
+                        this.getString(R.string.achievement_actually_thats_quite_impressive));
+            }
+
+            if (score == 100) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_the_kenzie_100_prize));
             }
 
 
@@ -191,7 +215,8 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
     @Override
     public void getGPGSLeaderboard() {
         if (this.gameHelper.isSignedIn()) {
-            this.startActivityForResult(Games.Leaderboards.getLeaderboardIntent(this.gameHelper.getApiClient(), this.getString(R.string.leaderboard_top_scores)), 100);
+            this.startActivityForResult(Games.Leaderboards.getLeaderboardIntent(this.gameHelper.getApiClient(),
+                    this.getString(R.string.leaderboard_top_scores)), 100);
             return;
         } else {
             if (this.gameHelper.isConnecting()) return;
@@ -247,8 +272,8 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
     private AdView createAdView() {
         this.adView = new AdView(this);
-        this.adView.setAdSize(AdSize.SMART_BANNER);
-        this.adView.setAdUnitId(BANNER_AD_UNIT_ID);
+     //   this.adView.setAdSize(AdSize.SMART_BANNER);
+     //   this.adView.setAdUnitId(BANNER_AD_UNIT_ID);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(-1, -2);
         layoutParams.addRule(12, -1);
         layoutParams.addRule(14, -1);
@@ -267,9 +292,9 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
         return this.gameView;
     }
 
-    private void startAdvertising(AdView adView) {
-        adView.loadAd(new AdRequest.Builder().build());
-    }
+//    private void startAdvertising(AdView adView) {
+//        adView.loadAd(new AdRequest.Builder().build());
+//    }
 
 
     @Override

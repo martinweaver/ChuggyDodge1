@@ -30,10 +30,10 @@ public class ScrollHandler {
     // Constructor receives a float that tells us where we need to create our
     // Kerb and Chugger objects.
 
-    public ScrollHandler(GameWorld gameWorld, float yPos) {
+    public ScrollHandler(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
-        frontKerb = new Kerb(0, yPos, 136, 500, SCROLL_SPEED);
-        backKerb = new Kerb(frontKerb.getTailX(), yPos, 136, 500, SCROLL_SPEED);
+        frontKerb = new Kerb(0, -40, 136, 500, SCROLL_SPEED);
+        backKerb = new Kerb(frontKerb.getTailX(), -40, 136, 500, SCROLL_SPEED);
 
         chugger1 = new Chuggers(210, 0, 18, 18, SCROLL_SPEED);
         chugger2 = new Chuggers(chugger1.getTailX() + CHUGGER_GAP, 0, 18, 18, SCROLL_SPEED);
@@ -183,7 +183,7 @@ public class ScrollHandler {
     {
         Random randCar = new Random();
 
-        int carGap = randCar.nextInt(350) ;
+        int carGap = randCar.nextInt(450) ;
         return carGap;
     }
 

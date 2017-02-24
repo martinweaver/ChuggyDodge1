@@ -40,11 +40,15 @@ public class Chuggy {
 
         velocity.add(acceleration.cpy().scl(delta));
 
-        if (velocity.y > 500) {
-            velocity.y = 500;
+//        velocity.add(acceleration.scl(delta));
+//
+//        acceleration.scl(1/delta);
+
+        if (velocity.y > 150) {
+            velocity.y = 150;
         }
-        if (velocity.y < -500) {
-            velocity.y = -500;
+        if (velocity.y < -150) {
+            velocity.y = -150;
         }
 
 // CEILING CHECK
@@ -61,6 +65,10 @@ public class Chuggy {
         }
 
         position.add(velocity.cpy().scl(delta));
+
+//        position.add(velocity.scl(delta));
+//
+//        velocity.scl(1/delta);
 
         // Set the circle's center to be (9, 6) with respect to the bird.
         // Set the circle's radius to be 6.5f;

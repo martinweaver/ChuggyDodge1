@@ -39,7 +39,7 @@ public class GameWorld {
         this.adsController = adsController;
         chuggy = new Chuggy(33, midPointY - 5, 17, 12);
         // The kerb bg should start 150 (was 66) pixels below the midPointY
-        scroller = new ScrollHandler(this, midPointY - 150);
+        scroller = new ScrollHandler(this);
     }
 
     public void update(float delta) {
