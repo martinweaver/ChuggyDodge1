@@ -17,7 +17,7 @@ public class GameWorld {
     private ScrollHandler scroller;
     private int score = 0;
     private float runTime = 0;
-    private int midPointY;
+   // private int midPointY;
     private GameRenderer renderer;
 
     private GameState currentState;
@@ -29,15 +29,18 @@ public class GameWorld {
     private int timesToAd = 0;
 
 
+
+
+
     public enum GameState {
         MENU, READY, RUNNING, GAMEOVER, HIGHSCORE
     }
 
-    public GameWorld(int midPointY, AdsController adsController) {
+    public GameWorld(AdsController adsController) {
         currentState = GameState.MENU;
-        this.midPointY = midPointY;
+      //  this.midPointY = midPointY;
         this.adsController = adsController;
-        chuggy = new Chuggy(33, midPointY - 5, 17, 12);
+        chuggy = new Chuggy(33, 120, 17, 12); //wtf does 120 do??
         // The kerb bg should start 150 (was 66) pixels below the midPointY
         scroller = new ScrollHandler(this);
     }
@@ -67,9 +70,12 @@ public class GameWorld {
 
 
     private void updateReady(float delta) {
+
         chuggy.updateReady(runTime);
         scroller.updateReady(delta);
     }
+
+
 
     public void updateRunning(float delta) {
 
@@ -77,8 +83,8 @@ public class GameWorld {
         // Add a delta cap so that if our game takes too long
         // to update, we will not break our collision detection.
 
-        if (delta > .15f) {
-            delta = .15f;
+        if (delta > .05f) {  //was .15f
+            delta = .05f;
         }
         chuggy.update(delta);
         scroller.update(delta);
@@ -126,9 +132,9 @@ public class GameWorld {
         return chuggy;
     }
 
-    public int getMidPointY() {
-        return midPointY;
-    }
+//    public int getMidPointY() {
+//        return midPointY;
+//    }
 
     public ScrollHandler getScroller() {
         return scroller;
@@ -154,7 +160,7 @@ public class GameWorld {
     public void restart() {
 
         score = 0;
-        chuggy.onRestart(midPointY - 5);
+        chuggy.onRestart(120); //wtf does this number do???
         scroller.onRestart();
         ready();
     }

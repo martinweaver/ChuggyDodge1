@@ -67,9 +67,11 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         compile fileTree(dir: '../libs/tween-engine-api-6.3.3 2', include: '*.jar')
-        compile 'com.google.firebase:firebase-core:10.0.1'
-        compile 'com.google.firebase:firebase-ads:10.0.1'
-        compile 'com.google.android.gms:play-services-games:10.0.1'
+        compile 'com.google.firebase:firebase-core:10.2.0'
+        compile 'com.google.firebase:firebase-ads:10.2.0'
+        compile 'com.google.firebase:firebase-messaging:10.2.0'
+        compile 'com.google.android.gms:play-services-games:10.2.0'
+
         compile project(':BaseGameUtils')
 
     }

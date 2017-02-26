@@ -57,7 +57,7 @@ public class GameRenderer {
     private TextureRegion ready;
     private TextureRegion highScore;
     private TextureRegion scoreboard;
-    private TextureRegion smile2, smile3, smile4, smile5, smile42, smile100;
+    private TextureRegion smile2, smile3, smile4, smile5, smile42, smile100, rate;
     private TextureRegion retry;
     private TextureRegion chuggyMid;
 
@@ -73,6 +73,7 @@ public class GameRenderer {
     private List<SimpleButton> retryButtons;
     private List<SimpleButton>  leaderboardButtons;
     private List<SimpleButton>  achievementsButtons;
+    private List<SimpleButton> rateButton;
     private Color transitionColor;
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
@@ -94,6 +95,9 @@ public class GameRenderer {
 
         this.leaderboardButtons = ((InputHandler) Gdx.input.getInputProcessor())
                 .getLeaderboardButtons();
+
+        this.rateButton = ((InputHandler) Gdx.input.getInputProcessor())
+                .getRateButtons();
 
         cam = new OrthographicCamera();
         cam.setToOrtho(true, 136, gameHeight);
@@ -145,6 +149,7 @@ public class GameRenderer {
         smile5 = AssetLoader.smile5;
         smile42 = AssetLoader.smile42;
         smile100 = AssetLoader.smile100;
+        rate = AssetLoader.rate;
     }
 
     private void drawKerb() {
@@ -214,7 +219,7 @@ public class GameRenderer {
 
 
     private void drawMenuUI() {
-        batcher.draw(AssetLoader.cdLogo, 136 / 2 - 53, midPointY - 70,
+        batcher.draw(AssetLoader.cdLogo, 136 / 2 - 53, 25,
                 AssetLoader.cdLogo.getRegionWidth() / 1.1f,
                 AssetLoader.cdLogo.getRegionHeight() / 1.1f);
 
@@ -283,18 +288,26 @@ public class GameRenderer {
         }
     }
 
+    private void drawRateButton() {
+
+        for (SimpleButton button : rateButton) {
+            button.draw(batcher);
+        }
+    }
+
 
     private void drawReady() {
-        batcher.draw(ready, 36, midPointY - 50, 68, 14);
+        batcher.draw(ready, 36, 55, 68, 14);
     }
+
 
 
     private void drawScore() {
         int length = ("" + myWorld.getScore()).length();
         AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(),
-                68 - (3 * length), midPointY - 82);
+                69 - (3 * length), 16);
         AssetLoader.font.draw(batcher, "" + myWorld.getScore(),
-                68 - (3 * length), midPointY - 83);
+                68 - (3 * length), 15);
     }
 
     private void drawHighScore() {
@@ -343,21 +356,23 @@ public class GameRenderer {
 
         else if (myWorld.isGameOver()) {
             drawChuggers(runTime);
-            drawCar(runTime);
             drawChuggy(runTime);
+            drawCar(runTime);
             drawScoreboard();
             drawRetry();
             drawAchievementsButton();
             drawLeaderboardButton();
+
         } else if (myWorld.isHighScore()) {
             drawChuggers(runTime);
-            drawCar(runTime);
             drawChuggy(runTime);
+            drawCar(runTime);
             drawScoreboard();
             drawHighScore();
             drawRetry();
             drawAchievementsButton();
             drawLeaderboardButton();
+            drawRateButton();
         }
 
 

@@ -45,7 +45,7 @@ public class SplashScreen implements Screen {
 
         sprite.setSize(sprite.getWidth() * scale * 2, sprite.getHeight() * scale * 2);
         sprite.setPosition((width ) - (sprite.getWidth() / 2), (height / 2)
-                - (sprite.getHeight() / 2));
+                - (sprite.getHeight() / 3));
         setupTween();
         batcher = new SpriteBatch();
     }

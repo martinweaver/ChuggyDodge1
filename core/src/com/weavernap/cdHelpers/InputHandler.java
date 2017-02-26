@@ -1,6 +1,7 @@
 package com.weavernap.cdHelpers;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.weavernap.gameobjects.Chuggy;
@@ -19,9 +20,9 @@ public class InputHandler implements InputProcessor {
     private Chuggy myChuggy;
     private GameWorld myWorld;
 
-    private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons;
+    private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons, rateButtons;
 
-    private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton;
+    private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton, rateButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -33,7 +34,7 @@ public class InputHandler implements InputProcessor {
         this.myWorld = myWorld;
         myChuggy = myWorld.getChuggy();
 
-        int midPointY = myWorld.getMidPointY();
+     //   int midPointY = myWorld.getMidPointY();
 
         this.scaleFactorX = scaleFactorX;
         this.scaleFactorY = scaleFactorY;
@@ -41,25 +42,29 @@ public class InputHandler implements InputProcessor {
         menuButtons = new ArrayList<SimpleButton>();
         playButton = new SimpleButton(
                 136 / 2 - (AssetLoader.playButtonUp.getRegionWidth() / 2),
-                midPointY + 25, 54, 25, AssetLoader.playButtonUp,
+                132, 54, 25, AssetLoader.playButtonUp,
                 AssetLoader.playButtonDown);
         menuButtons.add(playButton);
 
         retryButtons = new ArrayList<SimpleButton>();
-        retryButton = new SimpleButton(47, 130, 44, 22, AssetLoader.retryButtonUp,
+        retryButton = new SimpleButton(47, 122, 44, 22, AssetLoader.retryButtonUp,
                 AssetLoader.retryButtonDown);
         retryButtons.add(retryButton);
 
         achievementsButtons = new ArrayList<SimpleButton>();
-        this.achievementsButton = new SimpleButton(25.0f, 134.0f, 15.0f, 15.0f, AssetLoader.achievementsButton,
+        this.achievementsButton = new SimpleButton(25.0f, 126.0f, 15.0f, 15.0f, AssetLoader.achievementsButton,
                 AssetLoader.achievementsButton);
         achievementsButtons.add(achievementsButton);
 
         leaderboardButtons = new ArrayList<SimpleButton>();
-        this.leaderboardButton = new SimpleButton(97.0f, 134.0f, 16.0f, 16.0f, AssetLoader.leaderboardButton,
+        this.leaderboardButton = new SimpleButton(97.0f, 126.0f, 16.0f, 16.0f, AssetLoader.leaderboardButton,
                 AssetLoader.leaderboardButton);
         leaderboardButtons.add(leaderboardButton);
 
+        rateButtons = new ArrayList<SimpleButton>();
+        this.rateButton = new SimpleButton(44.5f, 145.0f, 48.0f, 23.0f, AssetLoader.rate,
+                AssetLoader.rate);
+                rateButtons.add(rateButton);
     }
 
     @Override
@@ -83,6 +88,7 @@ public class InputHandler implements InputProcessor {
             retryButton.isTouchDown(screenX, screenY);
             achievementsButton.isTouchDown(screenX, screenY);
             leaderboardButton.isTouchDown(screenX, screenY);
+            rateButton.isTouchDown(screenX, screenY);
         }
 
         return true; // Return true to say we handled the touch.;
@@ -131,6 +137,10 @@ public class InputHandler implements InputProcessor {
             }
             if (this.leaderboardButton.isTouchUp(screenX, screenY)) {
                 this.myWorld.getLeaderboardGPGS();
+            }
+            if (this.rateButton.isTouchUp(screenX, screenY)) {
+                Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.weavernap.chuggerdodge");
+                ;
             }
 
 
@@ -211,5 +221,8 @@ public class InputHandler implements InputProcessor {
 
     public List<SimpleButton> getLeaderboardButtons() {
         return leaderboardButtons;
+    }
+    public List<SimpleButton> getRateButtons() {
+        return rateButtons;
     }
 }
