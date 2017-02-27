@@ -138,12 +138,15 @@ public class InputHandler implements InputProcessor {
             if (this.leaderboardButton.isTouchUp(screenX, screenY)) {
                 this.myWorld.getLeaderboardGPGS();
             }
+
+
+
+        }
+
+        if (myWorld.isHighScore()) {
             if (this.rateButton.isTouchUp(screenX, screenY)) {
                 Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.weavernap.chuggerdodge");
-                ;
             }
-
-
         }
         return false;
 
