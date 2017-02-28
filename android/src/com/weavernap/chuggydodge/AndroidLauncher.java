@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -18,14 +20,24 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.appinvite.AppInvite;
+import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.appinvite.AppInviteInvitationResult;
+import com.google.android.gms.appinvite.AppInviteReferral;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 import com.weavernap.cdHelpers.AdsController;
 
+import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 
+public class AndroidLauncher extends AndroidApplication  implements GameHelper.GameHelperListener,
+        AdsController, GoogleApiClient.OnConnectionFailedListener{
 
-public class AndroidLauncher extends AndroidApplication implements GameHelper.GameHelperListener, AdsController {
+    private static final int REQUEST_INVITE = 987987;
 
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -42,7 +54,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
     private GameHelper gameHelper;
   //  private AdsController adsController;
-   // private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
 
 
 
@@ -100,6 +112,69 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 //		setContentView(layout);
 
 
+
+        // Create an auto-managed GoogleApiClient with access to App Invites.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(AppInvite.API)
+              //  .enableAutoManage(this, this)
+                .build();
+
+        // Check for App Invite invitations and launch deep-link activity if possible.
+        // Requires that an Activity is registered in AndroidManifest.xml to handle
+        // deep-link URLs.
+        boolean autoLaunchDeepLink = true;
+        AppInvite.AppInviteApi.getInvitation(mGoogleApiClient, this, autoLaunchDeepLink)
+                .setResultCallback(
+                        new ResultCallback<AppInviteInvitationResult>() {
+                            @Override
+                            public void onResult(AppInviteInvitationResult result) {
+                                Log.d(TAG, "getInvitation:onResult:" + result.getStatus());
+                                if (result.getStatus().isSuccess()) {
+                                    // Extract information from the intent
+                                    Intent intent = result.getInvitationIntent();
+                                    String deepLink = AppInviteReferral.getDeepLink(intent);
+                                    String invitationId = AppInviteReferral.getInvitationId(intent);
+
+                                    // Because autoLaunchDeepLink = true we don't have to do anything
+                                    // here, but we could set that to false and manually choose
+                                    // an Activity to launch to handle the deep link here.
+                                    // ...
+                                }
+                            }
+                        });
+
+    }
+
+
+    private void onInviteClicked() {
+        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                .setMessage(getString(R.string.invitation_message))
+             //   .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+             //   .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                .setCallToActionText(getString(R.string.invitation_cta))
+                .build();
+        startActivityForResult(intent, REQUEST_INVITE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        gameHelper.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
+
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    Log.d(TAG, "onActivityResult: sent invitation " + id);
+                }
+            } else {
+                // Sending failed or it was canceled, show failure message to the user
+                Log.d(TAG, "Failed to send invitation.");
+            }
+        }
     }
 
 
@@ -135,11 +210,11 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
         gameHelper.onStop();
     }
 
-    @Override
-    public void onActivityResult(int request, int response, Intent data) {
-        super.onActivityResult(request, response, data);
-        gameHelper.onActivityResult(request, response, data);
-    }
+//    @Override
+//    public void onActivityResult(int request, int response, Intent data) {
+//        super.onActivityResult(request, response, data);
+//        gameHelper.onActivityResult(request, response, data);
+//    }
 
 
     @Override
@@ -276,6 +351,11 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 //        }
     }
 
+    @Override
+    public void getOnInviteClicked() {
+        onInviteClicked();
+    }
+
 
     //Following from toaster code
 
@@ -340,6 +420,11 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
     @Override
     public void onSignInSucceeded() {
 
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 }
 

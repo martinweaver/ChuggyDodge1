@@ -20,9 +20,10 @@ public class InputHandler implements InputProcessor {
     private Chuggy myChuggy;
     private GameWorld myWorld;
 
-    private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons, rateButtons;
 
-    private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton, rateButton;
+    private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons, rateButtons, shareButtons;
+
+    private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton, rateButton, shareButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -65,6 +66,11 @@ public class InputHandler implements InputProcessor {
         this.rateButton = new SimpleButton(44.5f, 145.0f, 48.0f, 23.0f, AssetLoader.rate,
                 AssetLoader.rate);
                 rateButtons.add(rateButton);
+
+        shareButtons = new ArrayList<SimpleButton>();
+        this.shareButton = new SimpleButton(3.0f, 3.0f, 37.0f, 24.0f, AssetLoader.share,
+                AssetLoader.share);
+        shareButtons.add(shareButton);
     }
 
     @Override
@@ -89,6 +95,7 @@ public class InputHandler implements InputProcessor {
             achievementsButton.isTouchDown(screenX, screenY);
             leaderboardButton.isTouchDown(screenX, screenY);
             rateButton.isTouchDown(screenX, screenY);
+            shareButton.isTouchDown(screenX, screenY);
         }
 
         return true; // Return true to say we handled the touch.;
@@ -138,7 +145,9 @@ public class InputHandler implements InputProcessor {
             if (this.leaderboardButton.isTouchUp(screenX, screenY)) {
                 this.myWorld.getLeaderboardGPGS();
             }
-
+            if (this.shareButton.isTouchUp(screenX, screenY)) {
+                this.myWorld.getOnInviteClicked();
+            }
 
 
         }
@@ -227,5 +236,8 @@ public class InputHandler implements InputProcessor {
     }
     public List<SimpleButton> getRateButtons() {
         return rateButtons;
+    }
+    public List<SimpleButton> getShareButtons() {
+        return shareButtons;
     }
 }

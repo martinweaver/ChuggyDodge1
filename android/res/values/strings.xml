@@ -3,5 +3,10 @@
 
     <string name="app_name">Chugger Dodge</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="invitation_title">Invite friends</string>
+    <string name="invitation_message">Hi friend/pal/enter_name!\n\nDownload this great/ok/free Android game &amp; try to beat my highscore.\n\n:D</string>
+    <string name="invitation_deep_link">https://cse75.app.goo.gl/NLtk</string>
+    <string name="invitation_custom_image">bvbvbv</string>
+    <string name="invitation_cta">Come and play!</string>
 
 </resources>

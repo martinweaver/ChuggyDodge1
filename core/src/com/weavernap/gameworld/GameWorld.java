@@ -124,6 +124,18 @@ public class GameWorld {
         this.adsController.getAchievementsGPGS();
     }
 
+
+
+
+
+    public void getOnInviteClicked() {
+        this.adsController.getOnInviteClicked();
+    }
+
+
+
+
+
     public void getLeaderboardGPGS() {
         this.adsController.getGPGSLeaderboard();
     }

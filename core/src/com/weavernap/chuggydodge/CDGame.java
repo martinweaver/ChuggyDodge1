@@ -2,9 +2,10 @@ package com.weavernap.chuggydodge;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.weavernap.cdHelpers.*;
 import com.weavernap.cdHelpers.AdsController;
+import com.weavernap.cdHelpers.AssetLoader;
 import com.weavernap.screens.SplashScreen;
+
 
 public class CDGame extends Game {
 	private AdsController adsController;

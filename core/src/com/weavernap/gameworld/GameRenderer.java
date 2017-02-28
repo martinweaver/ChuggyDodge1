@@ -57,8 +57,7 @@ public class GameRenderer {
     private TextureRegion ready;
     private TextureRegion highScore;
     private TextureRegion scoreboard;
-    private TextureRegion smile2, smile3, smile4, smile5, smile42, smile100, rate;
-    private TextureRegion retry;
+    private TextureRegion smile2, smile3, smile4, smile5, smile42, smile100, retry, rate, share;
     private TextureRegion chuggyMid;
 
     private Animation chuggyAnimation, chuggerAnimation, busAnimation;
@@ -74,6 +73,7 @@ public class GameRenderer {
     private List<SimpleButton>  leaderboardButtons;
     private List<SimpleButton>  achievementsButtons;
     private List<SimpleButton> rateButton;
+    private List<SimpleButton> shareButton;
     private Color transitionColor;
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
@@ -98,6 +98,9 @@ public class GameRenderer {
 
         this.rateButton = ((InputHandler) Gdx.input.getInputProcessor())
                 .getRateButtons();
+
+        this.shareButton = ((InputHandler) Gdx.input.getInputProcessor())
+                .getShareButtons();
 
         cam = new OrthographicCamera();
         cam.setToOrtho(true, 136, gameHeight);
@@ -150,6 +153,7 @@ public class GameRenderer {
         smile42 = AssetLoader.smile42;
         smile100 = AssetLoader.smile100;
         rate = AssetLoader.rate;
+        share = AssetLoader.share;
     }
 
     private void drawKerb() {
@@ -295,6 +299,13 @@ public class GameRenderer {
         }
     }
 
+    private void drawShareButton() {
+
+        for (SimpleButton button : shareButton) {
+            button.draw(batcher);
+        }
+    }
+
 
     private void drawReady() {
         batcher.draw(ready, 36, 55, 68, 14);
@@ -362,6 +373,7 @@ public class GameRenderer {
             drawRetry();
             drawAchievementsButton();
             drawLeaderboardButton();
+            drawShareButton();
 
         } else if (myWorld.isHighScore()) {
             drawChuggers(runTime);
@@ -372,6 +384,7 @@ public class GameRenderer {
             drawRetry();
             drawAchievementsButton();
             drawLeaderboardButton();
+            drawShareButton();
             drawRateButton();
         }
 

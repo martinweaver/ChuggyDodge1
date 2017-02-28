@@ -64,7 +64,8 @@
     com.google.firebase,
     com.google.android.gms.vision,
     com.google.android.gms.wearable,
-    com.google.android.gms.tasks"/>
+    com.google.android.gms.tasks,
+    com.google.firebase.firebase_invites"/>
 
     <application
         android:allowBackup="true"
@@ -97,7 +98,13 @@
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
 
-
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:host="example.com" android:scheme="http"/>
+            <data android:host="example.com" android:scheme="https"/>
+        </intent-filter>
 
     </application>
 
