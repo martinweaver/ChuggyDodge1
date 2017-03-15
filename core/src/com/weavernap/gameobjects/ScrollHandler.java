@@ -183,7 +183,7 @@ public class ScrollHandler {
     {
         Random randCar = new Random();
 
-        int carGap = randCar.nextInt(450) ;
+        int carGap = randCar.nextInt(600) ;
         return carGap;
     }
 

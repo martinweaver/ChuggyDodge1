@@ -21,9 +21,11 @@ public class InputHandler implements InputProcessor {
     private GameWorld myWorld;
 
 
-    private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons, rateButtons, shareButtons;
+    private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons,
+            rateButtons, shareButtons, facebookButtons;
 
-    private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton, rateButton, shareButton;
+    private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton,
+            rateButton, shareButton, facebookButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -71,6 +73,13 @@ public class InputHandler implements InputProcessor {
         this.shareButton = new SimpleButton(3.0f, 3.0f, 37.0f, 24.0f, AssetLoader.share,
                 AssetLoader.share);
         shareButtons.add(shareButton);
+
+        facebookButtons = new ArrayList<SimpleButton>();
+        this.facebookButton = new SimpleButton(112.0f, 5.0f, 20.0f, 20.0f, AssetLoader.facebook,
+                AssetLoader.facebook);
+        facebookButtons.add(facebookButton);
+
+
     }
 
     @Override
@@ -96,6 +105,7 @@ public class InputHandler implements InputProcessor {
             leaderboardButton.isTouchDown(screenX, screenY);
             rateButton.isTouchDown(screenX, screenY);
             shareButton.isTouchDown(screenX, screenY);
+            facebookButton.isTouchDown(screenX, screenY);
         }
 
         return true; // Return true to say we handled the touch.;
@@ -147,6 +157,9 @@ public class InputHandler implements InputProcessor {
             }
             if (this.shareButton.isTouchUp(screenX, screenY)) {
                 this.myWorld.getOnInviteClicked();
+            }
+            if (this.facebookButton.isTouchUp(screenX, screenY)) {
+                Gdx.net.openURI("https://www.facebook.com/chuggerdodge");
             }
 
 
@@ -239,5 +252,8 @@ public class InputHandler implements InputProcessor {
     }
     public List<SimpleButton> getShareButtons() {
         return shareButtons;
+    }
+    public List<SimpleButton> getFacebookButtons() {
+        return facebookButtons;
     }
 }

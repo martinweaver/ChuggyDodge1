@@ -18,7 +18,8 @@ public class AssetLoader {
             retry,
             chuggyForward, chuggyBack, chuggy, chuggerUp, chugger, chuggerDown,
             chuggerTop, chuggerCentre, chuggerBottom, kerb, cdLogo, carPic,
-            busOne, busTwo, busThree, smile2, smile3, smile4, smile5, smile42, smile100, rate, share;
+            busOne, busTwo, busThree, smile2, smile3, smile4, smile5, smile42, smile100, rate, share,
+            facebook;
 
     public static Animation chuggerAnimation, chuggyAnimation, busAnimation;
 
@@ -125,7 +126,8 @@ public class AssetLoader {
         share = new TextureRegion(texture, 160, 103, 37, 24);
         share.flip(false, true);
 
-
+        facebook = new TextureRegion(texture, 161, 154, 43, 43);
+        facebook.flip(false, true);
 
 
         chuggyForward = new TextureRegion(textureChuggy, 74, 8, 12, 17);
