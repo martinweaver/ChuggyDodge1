@@ -57,7 +57,7 @@ public class GameRenderer {
     private TextureRegion ready;
     private TextureRegion highScore;
     private TextureRegion scoreboard;
-    private TextureRegion smile2, smile3, smile4, smile5, smile42, smile100, retry, rate, share, facebook;
+    private TextureRegion smile2, smile3, smile4, smile5, smile42, smile100, retry, rate, share, facebook, tips;
     private TextureRegion chuggyMid;
 
     private Animation chuggyAnimation, chuggerAnimation, busAnimation;
@@ -70,11 +70,14 @@ public class GameRenderer {
     // Buttons
     private List<SimpleButton> menuButtons;
     private List<SimpleButton> retryButtons;
-    private List<SimpleButton>  leaderboardButtons;
-    private List<SimpleButton>  achievementsButtons;
+    private List<SimpleButton> leaderboardButtons;
+    private List<SimpleButton> achievementsButtons;
     private List<SimpleButton> rateButton;
+    private List<SimpleButton> tipButton;
     private List<SimpleButton> shareButton;
     private List<SimpleButton> facebookButton;
+
+
     private Color transitionColor;
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
@@ -91,7 +94,7 @@ public class GameRenderer {
         this.retryButtons = ((InputHandler) Gdx.input.getInputProcessor())
                 .getRetryButtons();
 
-        this.achievementsButtons =  ((InputHandler) Gdx.input.getInputProcessor())
+        this.achievementsButtons = ((InputHandler) Gdx.input.getInputProcessor())
                 .getAchievementsButtons();
 
         this.leaderboardButtons = ((InputHandler) Gdx.input.getInputProcessor())
@@ -100,11 +103,15 @@ public class GameRenderer {
         this.rateButton = ((InputHandler) Gdx.input.getInputProcessor())
                 .getRateButtons();
 
+        this.tipButton = ((InputHandler) Gdx.input.getInputProcessor())
+                .getTipButtons();
+
         this.shareButton = ((InputHandler) Gdx.input.getInputProcessor())
                 .getShareButtons();
 
         this.facebookButton = ((InputHandler) Gdx.input.getInputProcessor())
                 .getFacebookButtons();
+
 
 
 
@@ -161,6 +168,7 @@ public class GameRenderer {
         rate = AssetLoader.rate;
         share = AssetLoader.share;
         facebook = AssetLoader.facebook;
+        tips = AssetLoader.tipVideos;
     }
 
     private void drawKerb() {
@@ -170,6 +178,7 @@ public class GameRenderer {
         batcher.draw(kerb, backKerb.getX(), backKerb.getY(),
                 backKerb.getWidth(), backKerb.getHeight());
     }
+
 
 
     private void drawChuggers(float runTime) {
@@ -207,10 +216,16 @@ public class GameRenderer {
 
 
     private void drawChuggyCentered(float runTime) {
-        batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime), 59, chuggy.getY() - 15,
-                CHUGGY_WIDTH / 2, CHUGGY_HEIGHT / 2,
-                CHUGGY_WIDTH, CHUGGY_HEIGHT, 1, 1, chuggy.getRotation());
+        batcher.draw((TextureRegion) chuggyAnimation.getKeyFrame(runTime),
+
+                //59, chuggy.getY() - 15,
+                //CHUGGY_WIDTH / 2, CHUGGY_HEIGHT / 2,
+              //  CHUGGY_WIDTH, CHUGGY_HEIGHT,
+                44f, chuggy.getY() - 28.5f , 100, 100, CHUGGY_WIDTH * 3.3f, CHUGGY_HEIGHT * 3.3f,
+                1, 1, chuggy.getRotation());
     }
+
+
 
     private void drawChuggy(float runTime) {
 
@@ -230,14 +245,31 @@ public class GameRenderer {
 
 
     private void drawMenuUI() {
-        batcher.draw(AssetLoader.cdLogo, 136 / 2 - 53, 25,
-                AssetLoader.cdLogo.getRegionWidth() / 1.1f,
-                AssetLoader.cdLogo.getRegionHeight() / 1.1f);
+        batcher.draw(AssetLoader.cdLogo, 9, 10,
+                AssetLoader.cdLogo.getRegionWidth() / 1.0f,
+                AssetLoader.cdLogo.getRegionHeight() / 1.0f);
 
         for (SimpleButton button : menuButtons) {
             button.draw(batcher);
         }
 
+    }
+
+    private void drawReady() {
+        batcher.draw(ready, 36, 65, 68, 14);
+    }
+
+
+    private void drawCDLogoSmall() {
+        batcher.draw(AssetLoader.cdLogo, 9, 10,
+                AssetLoader.cdLogo.getRegionWidth() / 1.0f,
+                AssetLoader.cdLogo.getRegionHeight() / 1.0f);
+    }
+
+    private void drawTapTapChuggy() {
+        batcher.setColor(1, 1, 1, 0.5f);
+        batcher.draw(AssetLoader.tapTapChuggy, 30, 88, (83 * 0.9f), (52 * 0.9f));
+        batcher.setColor(1, 1, 1, 1.0f);
     }
 
     private void drawScoreboard() {
@@ -255,15 +287,17 @@ public class GameRenderer {
         if (myWorld.getScore() == 42) {
             batcher.draw(smile42, 33, 88, 33, 30);
         }
-        if (myWorld.getScore() == 100) {
-            batcher.draw(smile100, 33, 88, 33, 30);
-        }
+
         if (myWorld.getScore() > 43) {
             batcher.draw(smile4, 33, 89, 33, 30);
         }
 
         if (myWorld.getScore() > 76) {
             batcher.draw(smile5, 33, 89, 33, 30);
+        }
+
+        if (myWorld.getScore() == 100) {
+            batcher.draw(smile100, 33, 88, 33, 30);
         }
 
         int length = ("" + myWorld.getScore()).length();
@@ -300,10 +334,17 @@ public class GameRenderer {
     }
 
     private void drawRateButton() {
-
+        if (myWorld.getScore() > 19) {
         for (SimpleButton button : rateButton) {
             button.draw(batcher);
-        }
+        }}
+    }
+
+    private void drawTipsButton() {
+        if (myWorld.getScore() < 10) {
+        for (SimpleButton button : tipButton) {
+            button.draw(batcher);
+        }}
     }
 
     private void drawShareButton() {
@@ -321,9 +362,6 @@ public class GameRenderer {
     }
 
 
-    private void drawReady() {
-        batcher.draw(ready, 36, 55, 68, 14);
-    }
 
 
 
@@ -362,24 +400,19 @@ public class GameRenderer {
             drawChuggers(runTime);
             drawCar(runTime);
             drawScore();
+
         } else if (myWorld.isReady()) {
             drawChuggy(runTime);
-
             drawReady();
-//            drawAchievementsButton();
-//            drawLeaderboardButton();
-
+            drawCDLogoSmall();
+            drawTapTapChuggy();
 
         } else if (myWorld.isMenu()) {
+
             drawChuggyCentered(runTime);
             drawMenuUI();
-//            drawAchievementsButton();
-//            drawLeaderboardButton();
-        }
 
-
-
-        else if (myWorld.isGameOver()) {
+        } else if (myWorld.isGameOver()) {
             drawChuggers(runTime);
             drawChuggy(runTime);
             drawCar(runTime);
@@ -389,6 +422,7 @@ public class GameRenderer {
             drawLeaderboardButton();
             drawShareButton();
             drawFacebookButton();
+            drawTipsButton();
 
         } else if (myWorld.isHighScore()) {
             drawChuggers(runTime);

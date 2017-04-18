@@ -12,14 +12,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetLoader {
 
-    public static Texture texture, logoTexture, textureChuggy, textureChugger, kerbTexture, cdLogoTexture, busTexture;
+    public static Texture texture, logoTexture, textureChuggy, textureChugger, kerbTexture, cdLogoTexture, busTexture, tapTapChuggyTexture,
+                            tipVideosTexture;
     public static TextureRegion logo,  retryButtonUp, retryButtonDown,leaderboardButton, achievementsButton, playButtonUp, playButtonDown,
             ready, highScore, scoreboard,
             retry,
             chuggyForward, chuggyBack, chuggy, chuggerUp, chugger, chuggerDown,
             chuggerTop, chuggerCentre, chuggerBottom, kerb, cdLogo, carPic,
             busOne, busTwo, busThree, smile2, smile3, smile4, smile5, smile42, smile100, rate, share,
-            facebook;
+            facebook, tapTapChuggy, tipVideos;
 
     public static Animation chuggerAnimation, chuggyAnimation, busAnimation;
 
@@ -62,8 +63,22 @@ public class AssetLoader {
         cdLogoTexture = new Texture(Gdx.files.internal("data/cdlogo.png"));
         cdLogoTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
-        cdLogo = new TextureRegion(cdLogoTexture, 0, 0, 120, 55);
+        cdLogo = new TextureRegion(cdLogoTexture, 0, 0, 118, 46);
         cdLogo.flip(false, true);
+
+
+
+        tapTapChuggyTexture = new Texture(Gdx.files.internal("data/taptapchuggy.png"));
+        tapTapChuggyTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        tapTapChuggy = new TextureRegion(tapTapChuggyTexture, 0, 0, 830, 519);
+        tapTapChuggy.flip(false, true);
+
+        tipVideosTexture = new Texture(Gdx.files.internal("data/tipVideos.png"));
+        tipVideosTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        tipVideos = new TextureRegion(tipVideosTexture, 0, 0, 480, 230);
+        tipVideos.flip(false, true);
 
 
         playButtonUp = new TextureRegion(texture, 214, 182, 55, 27);
@@ -130,6 +145,7 @@ public class AssetLoader {
         facebook.flip(false, true);
 
 
+
         chuggyForward = new TextureRegion(textureChuggy, 74, 8, 12, 17);
         chuggyForward.flip(false, true);
 
@@ -179,6 +195,8 @@ public class AssetLoader {
         busAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 
+
+
      //   dead = Gdx.audio.newSound(Gdx.files.internal("data/chugged8.wav")); //orig dead
         flap = Gdx.audio.newSound(Gdx.files.internal("data/no15H10.wav")); // flap
         coin = Gdx.audio.newSound(Gdx.files.internal("data/coin4H10.wav")); // coin
@@ -221,6 +239,7 @@ public class AssetLoader {
         fall.dispose();
         lunch.dispose();
 
+
         font.dispose();
         shadow.dispose();
 
@@ -229,7 +248,8 @@ public class AssetLoader {
         textureChugger.dispose();
         kerbTexture.dispose();
         cdLogoTexture.dispose();
-       busTexture.dispose();
+        busTexture.dispose();
+        tapTapChuggyTexture.dispose();
 
     }
 

@@ -22,10 +22,10 @@ public class InputHandler implements InputProcessor {
 
 
     private List<SimpleButton> menuButtons, retryButtons, achievementsButtons, leaderboardButtons,
-            rateButtons, shareButtons, facebookButtons;
+            rateButtons, shareButtons, facebookButtons, tipButtons;
 
     private SimpleButton playButton, retryButton, achievementsButton, leaderboardButton,
-            rateButton, shareButton, facebookButton;
+            rateButton, shareButton, facebookButton, tipButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -37,7 +37,7 @@ public class InputHandler implements InputProcessor {
         this.myWorld = myWorld;
         myChuggy = myWorld.getChuggy();
 
-     //   int midPointY = myWorld.getMidPointY();
+        //   int midPointY = myWorld.getMidPointY();
 
         this.scaleFactorX = scaleFactorX;
         this.scaleFactorY = scaleFactorY;
@@ -67,7 +67,12 @@ public class InputHandler implements InputProcessor {
         rateButtons = new ArrayList<SimpleButton>();
         this.rateButton = new SimpleButton(44.5f, 145.0f, 48.0f, 23.0f, AssetLoader.rate,
                 AssetLoader.rate);
-                rateButtons.add(rateButton);
+        rateButtons.add(rateButton);
+
+        tipButtons = new ArrayList<SimpleButton>();
+        this.tipButton = new SimpleButton(54f, 148.0f, 30.0f, 14.79f, AssetLoader.tipVideos,
+                AssetLoader.tipVideos);
+        tipButtons.add(tipButton);
 
         shareButtons = new ArrayList<SimpleButton>();
         this.shareButton = new SimpleButton(3.0f, 3.0f, 37.0f, 24.0f, AssetLoader.share,
@@ -89,8 +94,6 @@ public class InputHandler implements InputProcessor {
 
         if (myWorld.isMenu()) {
             playButton.isTouchDown(screenX, screenY);
-//            achievementsButton.isTouchDown(screenX, screenY);
-//            leaderboardButton.isTouchDown(screenX, screenY);
 
         } else if (myWorld.isReady()) {
             myWorld.start(); // put this in touchup??
@@ -103,10 +106,23 @@ public class InputHandler implements InputProcessor {
             retryButton.isTouchDown(screenX, screenY);
             achievementsButton.isTouchDown(screenX, screenY);
             leaderboardButton.isTouchDown(screenX, screenY);
-            rateButton.isTouchDown(screenX, screenY);
+          //  rateButton.isTouchDown(screenX, screenY);
             shareButton.isTouchDown(screenX, screenY);
             facebookButton.isTouchDown(screenX, screenY);
+           // tipButton.isTouchDown(screenX, screenY);
         }
+
+        if (myWorld.isGameOver()) {
+
+            tipButton.isTouchDown(screenX, screenY);
+        }
+
+        if (myWorld.isHighScore()) {
+
+            rateButton.isTouchDown(screenX, screenY);
+
+        }
+
 
         return true; // Return true to say we handled the touch.;
     }
@@ -162,11 +178,16 @@ public class InputHandler implements InputProcessor {
                 Gdx.net.openURI("https://www.facebook.com/chuggerdodge");
             }
 
+        }
 
+        if (myWorld.isGameOver()) {
+            if (myWorld.getScore() < 10 && this.tipButton.isTouchUp(screenX, screenY)) {
+                Gdx.net.openURI("https://www.youtube.com/watch?v=4OB8eDb9Z0U&list=PLElAkR7oAB3Biwe4pNYGm2JJL7AKkwfVI");
+            }
         }
 
         if (myWorld.isHighScore()) {
-            if (this.rateButton.isTouchUp(screenX, screenY)) {
+            if (myWorld.getScore() > 19 && this.rateButton.isTouchUp(screenX, screenY)) {
                 Gdx.net.openURI("https://play.google.com/store/apps/details?id=com.weavernap.chuggerdodge");
             }
         }
@@ -255,5 +276,9 @@ public class InputHandler implements InputProcessor {
     }
     public List<SimpleButton> getFacebookButtons() {
         return facebookButtons;
+    }
+
+    public List<SimpleButton> getTipButtons() {
+        return tipButtons;
     }
 }
