@@ -34,8 +34,8 @@ import com.weavernap.cdHelpers.AdsController;
 import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 
-public class AndroidLauncher extends AndroidApplication  implements GameHelper.GameHelperListener,
-        AdsController, GoogleApiClient.OnConnectionFailedListener{
+public class AndroidLauncher extends AndroidApplication implements GameHelper.GameHelperListener,
+        AdsController, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int REQUEST_INVITE = 987987;
 
@@ -44,7 +44,7 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
         MultiDex.install(this);
     }
 
- //   private static final String BANNER_AD_UNIT_ID = "ca-app-pub-3737397260010456/7958274520";
+    //   private static final String BANNER_AD_UNIT_ID = "ca-app-pub-3737397260010456/7958274520";
 
     private static final String INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3737397260010456/3314422124";
 
@@ -53,9 +53,8 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
     protected View gameView;
 
     private GameHelper gameHelper;
-  //  private AdsController adsController;
+    //  private AdsController adsController;
     private GoogleApiClient mGoogleApiClient;
-
 
 
     private SharedPreferences prefs;
@@ -64,7 +63,6 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         super.onCreate(savedInstanceState);
@@ -81,7 +79,7 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
         relativeLayout.addView(adView);
         relativeLayout.addView(this.createGameView(config));
         this.setContentView(relativeLayout);
-      //  this.startAdvertising(adView);
+        //  this.startAdvertising(adView);
         this.interstitialAd = new InterstitialAd(this);
         this.interstitialAd.setAdUnitId(INTERSTITIAL_AD_UNIT_ID);
 
@@ -112,11 +110,10 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
 //		setContentView(layout);
 
 
-
         // Create an auto-managed GoogleApiClient with access to App Invites.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(AppInvite.API)
-              //  .enableAutoManage(this, this)
+                //  .enableAutoManage(this, this)
                 .build();
 
         // Check for App Invite invitations and launch deep-link activity if possible.
@@ -149,8 +146,8 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
     private void onInviteClicked() {
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                 .setMessage(getString(R.string.invitation_message))
-             //   .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
-             //   .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                //   .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+                //   .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
                 .setCallToActionText(getString(R.string.invitation_cta))
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
@@ -178,11 +175,10 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
     }
 
 
-
     @Override
-    public void onWindowFocusChanged(boolean hasFocus){
+    public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
+        if (hasFocus) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 getWindow().getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -192,7 +188,7 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
                                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 );
-            } else{
+            } else {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
         }
@@ -299,8 +295,7 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
     @Override
     public void getGPGSLeaderboard() {
         if (this.gameHelper.isSignedIn()) {
-            this.startActivityForResult(Games.Leaderboards.getLeaderboardIntent(this.gameHelper.getApiClient(),
-                    this.getString(R.string.leaderboard_top_scores)), 100);
+            this.startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(this.gameHelper.getApiClient()), 100);
             return;
         } else {
             if (this.gameHelper.isConnecting()) return;
@@ -309,6 +304,106 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
                 return;
             }
         }
+    }
+
+
+    @Override
+    public void submitRoadRunnerScoreGPGS(int roadRunnerScore) {
+        if (this.getSignedInGPGS()) {
+            Games.Leaderboards.submitScore(this.gameHelper.getApiClient(), this.getString(R.string.leaderboard_top_road_runner_scores),
+                    roadRunnerScore);
+        }
+
+    }
+
+
+    @Override
+    public void unlockRoadRunnerAchievementsGPGS(int roadRunnerScore) {
+
+        if (this.getSignedInGPGS()) {
+            if (roadRunnerScore > 0) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_road_runner));
+            }
+
+            if (roadRunnerScore > 4) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_road_runner_v));
+            }
+
+            if (roadRunnerScore > 9) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_road_runner_x));
+            }
+
+            if (roadRunnerScore > 14) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_road_runner_xv));
+            }
+
+            if (roadRunnerScore > 19) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_road_runner_xx));
+            }
+
+            if (roadRunnerScore > 49) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_road_runner_50));
+            }
+        }
+    }
+
+    @Override
+    public void unlockHumptyBumptyAchievementsGPGS(int humptyBumptyScore) {
+
+        if (this.getSignedInGPGS()) {
+            if (humptyBumptyScore > 0) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_humpty_bumpty));
+            }
+
+            if (humptyBumptyScore > 9) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_humpty_bumpty_X));
+            }
+
+            if (humptyBumptyScore > 14) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_humpty_bumpty_XXV));
+            }
+
+            if (humptyBumptyScore > 49) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_humpty_bumpty_50));
+            }
+
+            if (humptyBumptyScore > 74) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_humpty_bumpty_75));
+            }
+
+            if (humptyBumptyScore > 99) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_humpty_bumpty_100));
+            }
+
+            if (humptyBumptyScore > 149) {
+                Games.Achievements.unlock(this.gameHelper.getApiClient(),
+                        this.getString(R.string.achievement_humpty_bumpty_150));
+            }
+
+
+        }
+
+    }
+
+    @Override
+    public void submitHumptyBumptyScoreGPGS(int humptyBumptyScore) {
+        if (this.getSignedInGPGS()) {
+            Games.Leaderboards.submitScore(this.gameHelper.getApiClient(), this.getString(R.string.leaderboard_top_humpty_bumpty_scores),
+                    humptyBumptyScore);
+        }
+
     }
 
     @Override
@@ -361,8 +456,8 @@ public class AndroidLauncher extends AndroidApplication  implements GameHelper.G
 
     private AdView createAdView() {
         this.adView = new AdView(this);
-     //   this.adView.setAdSize(AdSize.SMART_BANNER);
-     //   this.adView.setAdUnitId(BANNER_AD_UNIT_ID);
+        //   this.adView.setAdSize(AdSize.SMART_BANNER);
+        //   this.adView.setAdUnitId(BANNER_AD_UNIT_ID);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(-1, -2);
         layoutParams.addRule(12, -1);
         layoutParams.addRule(14, -1);

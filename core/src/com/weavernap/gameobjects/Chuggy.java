@@ -19,7 +19,9 @@ public class Chuggy {
     private int width;
     private int height;
 
-   // private float originalY;
+    public int roadRunnerScore = 0;
+    public int humptyBumptyScore = 0;
+
 
     private Circle boundingCircle;
 
@@ -28,7 +30,7 @@ public class Chuggy {
     public Chuggy(float x, float y, int width, int height) {
         this.width = width;
         this.height = height;
-      //  this.originalY = y;
+
         position = new Vector2(x, y);
         velocity = new Vector2(0, 50); //speed set (orig 0) as cant figure out how to swap direction without
         acceleration = new Vector2(0, 1);
@@ -56,13 +58,17 @@ public class Chuggy {
             position.y = 0;
             velocity.y = -velocity.y;
             acceleration.y = -acceleration.y;
+            addHumptyBumptyScore();
         }
 
         if (position.y > 204) {
             position.y = 204;
             velocity.y = -velocity.y;
             acceleration.y = -acceleration.y;
+            addRoadRunnerScore();
         }
+
+
 
         position.add(velocity.cpy().scl(delta));
 
@@ -72,7 +78,7 @@ public class Chuggy {
 
         // Set the circle's center to be (9, 6) with respect to the bird.
         // Set the circle's radius to be 6.5f;
-        boundingCircle.set(position.x + (getHeight()/2), position.y + (getWidth()/2), 7.8f);
+        boundingCircle.set(position.x + (getHeight() / 2), position.y + (getWidth() / 2), 7.8f);
 
         // Rotate counterclockwise
         if (velocity.y < 0) {
@@ -91,6 +97,21 @@ public class Chuggy {
             }
 
         }
+    }
+
+
+    public void addRoadRunnerScore() {
+        roadRunnerScore++;
+        System.out.println("Road Runner Score is: " + roadRunnerScore);
+    }
+
+    public void addHumptyBumptyScore() {
+        humptyBumptyScore++;
+        System.out.println("Humpty Bumpty Score is: " + humptyBumptyScore);
+    }
+
+    public int getRoadRunnerScore() {
+        return roadRunnerScore;
     }
 
 

@@ -103,6 +103,8 @@ public class Chuggers extends Scrollable {
         isScored = b;
     }
 
+
+
     public void onRestart(float x, float scrollSpeed) {
         velocity.x = scrollSpeed;
         reset(x);

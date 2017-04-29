@@ -16,6 +16,7 @@ public class GameWorld {
     private Chuggy chuggy;
     private ScrollHandler scroller;
     private int score = 0;
+//    private int roadRunnerScore = 0;
     private float runTime = 0;
    // private int midPointY;
     private GameRenderer renderer;
@@ -89,6 +90,8 @@ public class GameWorld {
         chuggy.update(delta);
         scroller.update(delta);
 
+
+
         if (scroller.collides(chuggy) && chuggy.isAlive()) {
             scroller.stop();
             chuggy.die();
@@ -109,6 +112,12 @@ public class GameWorld {
 
             this.adsController.unlockAchievementGPGS(this.score);
             this.adsController.submitScoreGPGS(this.score);
+
+            this.adsController.submitRoadRunnerScoreGPGS(chuggy.roadRunnerScore);
+            this.adsController.unlockRoadRunnerAchievementsGPGS(chuggy.roadRunnerScore);
+
+            this.adsController.submitHumptyBumptyScoreGPGS(chuggy.humptyBumptyScore);
+            this.adsController.unlockHumptyBumptyAchievementsGPGS(chuggy.humptyBumptyScore);
         }
 
 
@@ -145,9 +154,7 @@ public class GameWorld {
         return chuggy;
     }
 
-//    public int getMidPointY() {
-//        return midPointY;
-//    }
+
 
     public ScrollHandler getScroller() {
         return scroller;
@@ -161,6 +168,11 @@ public class GameWorld {
         score += increment;
     }
 
+
+
+
+
+
     public void start() {
         currentState = GameState.RUNNING;
     }
@@ -173,6 +185,8 @@ public class GameWorld {
     public void restart() {
 
         score = 0;
+        chuggy.roadRunnerScore = 0;
+        chuggy.humptyBumptyScore = 0;
         chuggy.onRestart(120); //wtf does this number do???
         scroller.onRestart();
         ready();

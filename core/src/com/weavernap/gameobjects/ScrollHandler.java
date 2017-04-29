@@ -125,6 +125,7 @@ public class ScrollHandler {
             addScore(1);
             chugger1.setScored(true);
             AssetLoader.coin.play();
+
         } else if (!chugger2.isScored()
                 && chugger2.getX() + (chugger2.getWidth() / 2) < chuggy.getX()
                 + chuggy.getWidth()) {
@@ -149,6 +150,10 @@ public class ScrollHandler {
     private void addScore(int increment) {
         gameWorld.addScore(increment);
     }
+
+
+
+
 
     // The getters for our five instance variables
     public Kerb getFrontKerb() {
