@@ -26,7 +26,7 @@ public class AssetLoader {
 
 
     public static Sound  coin, flap, fall, lunch;
-    public static BitmapFont font, shadow, whiteFont;
+    public static BitmapFont font, shadow, whiteFont, smlWhiteFont;
 
     public static Preferences prefs;
 
@@ -208,6 +208,9 @@ public class AssetLoader {
         whiteFont = new BitmapFont(Gdx.files.internal("data/whitetext.fnt"));
         whiteFont.getData().setScale(.1f, -.1f);
 
+        smlWhiteFont = new BitmapFont(Gdx.files.internal("data/whitetext.fnt"));
+        smlWhiteFont.getData().setScale(.07f, -.07f);
+
         shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
         shadow.getData().setScale(.25f, -.25f);
 
@@ -250,6 +253,7 @@ public class AssetLoader {
         cdLogoTexture.dispose();
         busTexture.dispose();
         tapTapChuggyTexture.dispose();
+        tipVideosTexture.dispose();
 
     }
 

@@ -30,8 +30,8 @@ android {
         minSdkVersion 9
         targetSdkVersion 25
         multiDexEnabled true
-        versionCode 13
-        versionName "2.0"
+        versionCode 14
+        versionName "2.0.1"
     }
     productFlavors {
     }

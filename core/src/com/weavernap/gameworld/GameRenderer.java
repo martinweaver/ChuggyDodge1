@@ -310,6 +310,12 @@ public class GameRenderer {
         AssetLoader.whiteFont.draw(batcher, "" + AssetLoader.getHighScore(),
                 96 - (2f * length2), 109);
 
+        AssetLoader.smlWhiteFont.draw(batcher, "HB: " + chuggy.getHumptyBumptyScore(),
+                3, 150);
+
+        AssetLoader.smlWhiteFont.draw(batcher, "RR: " + chuggy.getRoadRunnerScore(),
+                3, 156);
+
     }
 
     private void drawRetry() {

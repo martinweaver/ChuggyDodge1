@@ -114,6 +114,10 @@ public class Chuggy {
         return roadRunnerScore;
     }
 
+    public int getHumptyBumptyScore() {
+        return humptyBumptyScore;
+    }
+
 
     public void updateReady(float runTime) {
         position.y = 2 * (float) Math.sin(7 * runTime) + 90;
